@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Распевки</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="./favicon/icon180.png">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/player.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="header">
+            <div class="menuLogo" onclick="openMenu()">&equiv;</div>
+            <h1 style="margin-left: 20px">Тропари</h1>
+        </div>
+        <div class="menu">
+            <a href="index.html" class="btnMenu">Главная</a>
+            <a href="instruction.html" class="btnMenu">Инструкция</a>
+            <div style="margin: 0 10px 5px 0">
+                <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
+                <label for="checkbox_navbar"></label>
+            </div>
+        </div>
+    </div>
+    <div class="mobileMenu" id="mobileMenu">
+        <a href="index.html" class="btnMobileMenu">Главная</a>
+        <a href="instruction.html" class="btnMobileMenu">Инструкция</a>
+    </div>
+
+    <h3>Выберите глас:</h3>
+
+    <div class="glass">
+            <div class="btn" onclick="chooseGlas('glas1')" id="glas1">Глас 1</div>
+            <div class="btn" onclick="chooseGlas('glas2')" id="glas2">Глас 2</div>
+            <div class="btn" onclick="chooseGlas('glas3')" id="glas3">Глас 3</div>
+            <div class="btn" onclick="chooseGlas('glas4')" id="glas4">Глас 4</div>
+            <div class="btn" onclick="chooseGlas('glas5')" id="glas5">Глас 5</div>
+            <div class="btn" onclick="chooseGlas('glas6')" id="glas6">Глас 6</div>
+            <div class="btn" onclick="chooseGlas('glas7')" id="glas7">Глас 7</div>
+            <div class="btn" onclick="chooseGlas('glas8')" id="glas8">Глас 8</div>
+    </div>
+
+    <h3>Бог Госпо́дь и яви́ся нам, благослове́н Гряды́й во И́мя Госпо́дне.</h3>
+
+    <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
+
+    <h3>Выберите тональность:</h3>
+    <div class="glass">
+        <div class="btn" onclick="chooseTone(60, 'toneDo')" id="toneDo">До</div>
+        <div class="btn" onclick="chooseTone(62, 'toneRe')" id="toneRe">Ре</div>
+        <div class="btn" onclick="chooseTone(64, 'toneMi')" id="toneMi">Ми</div>
+        <div class="btn" onclick="chooseTone(65, 'toneFa')" id="toneFa">Фа</div>
+        <div class="btn" onclick="chooseTone(67, 'toneSo')" id="toneSo">Соль</div>
+        <div class="btn" onclick="chooseTone(69, 'toneLa')" id="toneLa">Ля</div>
+        <div class="btn" onclick="chooseTone(71, 'toneSi')" id="toneSi">Си</div>
+    </div>
+
+    <h3>Выберите темп:</h3>
+    <div class="glass">
+        <div class="btn" onclick="chooseTempo(118, 'slow')" id="slow">Медленно</div>
+        <div class="btn" onclick="chooseTempo(100, 'mid')" id="mid">Средне</div>
+        <div class="btn" onclick="chooseTempo(62, 'fast')" id="fast">Быстро</div>
+    </div>
+
+    <h3>Выберите партии:</h3>
+    <div class="parts">
+        <div class="divcheck">
+            <input class='checkbox' type="checkbox" id="soprano1" />
+            <label for="soprano1" class="off" id="soprano1L">Сопрано 1</label>
+            <input class='checkbox' type="checkbox" id="soprano2" />
+            <label for="soprano2" class="off" id="soprano2L">Сопрано 2</label>
+            <input class='checkbox' type="checkbox" id="alt" />
+            <label for="alt" class="off" id="altL">Альт</label>
+            <input class='checkbox' type="checkbox" id="tenor1" />
+            <label for="tenor1" class="off" id="tenor1L">Тенор 1</label>
+            <input class='checkbox' type="checkbox" id="tenor2" />
+            <label for="tenor2" class="off" id="tenor2L">Тенор 2</label>
+            <input class='checkbox' type="checkbox" id="bariton" />
+            <label for="bariton" class="off" id="baritonL">Баритон</label>
+            <input class='checkbox' type="checkbox" id="bas" />
+            <label for="bas" class="off" id="basL">Бас</label>
+        </div>
+        <div class="volumes">
+            <input type="range" class="off" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="altVol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="baritonVol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="off" id="basVol" min="0" value="70" max="127" step="1"/>
+        </div>
+        <div class="resets">
+            <div class="off" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
+            <div class="off" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
+            <div class="off" onclick="resetVolume('altVol')" id="altRes">↻</div>
+            <div class="off" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
+            <div class="off" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
+            <div class="off" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
+            <div class="off" onclick="resetVolume('basVol')" id="basRes">↻</div>
+        </div>
+    </div>
+
+    <br><br>
+    <div class="btn" style="margin: 0 auto" onclick="generateSong()">Генерировать</div>
+    <br>
+    <h3 id="tropar">404</h3>
+    <br>
+    <h3 class="not-active" id="trackName">Track</h3>
+    <div class="not-active" id="btnPlay">
+        <midi-player sound-font id="player" visualizer="#playerV"></midi-player>
+        <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>
+    </div>
+
+
+    <div class="footer">
+        2022 (c) Тима Забабурин<br>
+        Для корректной работы сайта рекомендуется использовать браузер Google Chrome<br>
+        P.S. а вообще-то я фотограф &darr;
+        <a href="https://ztd-prod.ru" target="_blank">ztd-prod.ru</a>
+    </div>
+
+    <!--  scripts  -->
+    <script src="./js/jsmidgen.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <!--  texts  -->
+    <script src="js/texts/troparGlas.js"></script>
+    <!--  glases  -->
+    <script src="js/melodies/glas.js"></script>
+</body>
+</html>

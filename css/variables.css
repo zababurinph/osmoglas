@@ -1,0 +1,15 @@
+:root {
+    --hover-color: gray;
+    --active-color: lightgray;
+    --border-radius: 10px;
+    --main-color: #FEFEFE;
+    --second-color: #fcf5e5;
+    --third-color: #982828;
+    --black: #363636;
+    --green: #2c9828;
+}
+
+@font-face {
+    font-family: 'CyrillicOld';
+    src: url("/fonts/cyrillicold.otf") format('truetype');
+}

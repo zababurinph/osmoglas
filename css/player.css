@@ -1,0 +1,26 @@
+midi-player {
+    display: block;
+    width: inherit;
+    margin: 0 auto;
+    padding: 0 30px;
+    max-width: 1000px;
+}
+
+midi-player::part(control-panel) {
+    background: var(--second-color);
+    border-radius: var(--border-radius);
+}
+
+midi-player::part(play-button) {
+    background: var(--third-color);
+    color: var(--main-color);
+    border-radius: var(--border-radius);
+}
+
+midi-player::part(play-button):hover {
+    opacity: 0.8;
+}
+
+midi-player::part(time) {
+    color: var(--black);
+}
