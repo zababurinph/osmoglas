@@ -18,9 +18,9 @@ window.addEventListener("load", (e) => {
   qs('#' + toneKey).classList.add("keyChoise");
   qs('#' + tempoKey).classList.add("keyChoise");
   qs('#tropar').innerHTML = tropar[0];
-  song = makeShortMelody(glas1Data[1], glas1Data[2]);
+  song = makeShortMelody(data.glas1[1], data.glas1[2]);
   qs('#player_short').src = song;
-  changeActiveParts(glas1Data[0], true);
+  changeActiveParts(data.glas1[0], true);
 });
 
 window.addEventListener("resize", (e) => {
@@ -54,24 +54,8 @@ function chooseGlas(id) {
   qs('#' + id).classList.add("keyChoise");
   qs('#' + "tropar").innerHTML = tropar[Number(id.replace("glas", "")) - 1];
   changeActiveParts(parts, false);
-  switch (id) {
-    case "glas1":
-      changeActiveParts(glas1Data[0], true);
-      song = makeShortMelody(glas1Data[1], glas1Data[2]);
-      break;
-    case "glas2":
-      changeActiveParts(glas2Data[0], true);
-      song = makeShortMelody(glas2Data[1], glas2Data[2]);
-      break;
-    case "glas3":
-      changeActiveParts(glas3Data[0], true);
-      song = makeShortMelody(glas3Data[1], glas3Data[2]);
-      break;
-    default:
-      alert("Нет такой распевки");
-      song = "";
-      break;
-  }
+  changeActiveParts(data[id][0], true);
+  song = makeShortMelody(data[id][1], data[id][2]);
   glas = id;
   qs('#player_short').src = song;
 }
@@ -97,21 +81,7 @@ function generateSong() {
   console.log(golosa);
   console.log(velocity);
 
-  switch (glas) {
-    case "glas1":
-      song = makeMelody(glas1Data[3], glas1Data[4]);
-      break;
-    case "glas2":
-      song = makeMelody(glas2Data[3], glas2Data[4]);
-      break;
-    case "glas3":
-      song = makeMelody(glas3Data[3], glas3Data[4]);
-      break;
-    default:
-      alert("Нет такой распевки");
-      song = "";
-      return;
-  }
+  song = makeMelody(data[glas][3], data[glas][4])
 
   qs('#trackName').innerHTML = '"' + qs('#' + glas).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
   qs('#btnPlay').classList.remove("not-active");
