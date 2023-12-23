@@ -11,16 +11,17 @@ let song = "",
     toneKey = "toneFa",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
-    velocity = [70, 70, 70, 70, 70, 70, 70];
+    velocity = [70, 70, 70, 70, 70, 70, 70],
+    activePage = 'tropar';
 
 window.addEventListener("load", (e) => {
   qs('#' + glas).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
   qs('#' + tempoKey).classList.add("keyChoise");
-  qs('#tropar').innerHTML = tropar[0];
-  song = makeShortMelody(data.glas1[1], data.glas1[2]);
+  qs('#textMelody').innerHTML = data[activePage].glas1[5];
+  song = makeShortMelody(data[activePage].glas1[1], data[activePage].glas1[2]);
   qs('#player_short').src = song;
-  changeActiveParts(data.glas1[0], true);
+  changeActiveParts(data[activePage].glas1[0], true);
 });
 
 window.addEventListener("resize", (e) => {
@@ -52,10 +53,10 @@ function changeActiveParts(parts, value) {
 function chooseGlas(id) {
   qs('#' + glas).classList.remove("keyChoise");
   qs('#' + id).classList.add("keyChoise");
-  qs('#' + "tropar").innerHTML = tropar[Number(id.replace("glas", "")) - 1];
+  qs('#textMelody').innerHTML = data[activePage][id][5] //[Number(id.replace("glas", "")) - 1];
   changeActiveParts(parts, false);
-  changeActiveParts(data[id][0], true);
-  song = makeShortMelody(data[id][1], data[id][2]);
+  changeActiveParts(data[activePage][id][0], true);
+  song = makeShortMelody(data[activePage][id][1], data[activePage][id][2]);
   glas = id;
   qs('#player_short').src = song;
 }
@@ -81,7 +82,7 @@ function generateSong() {
   console.log(golosa);
   console.log(velocity);
 
-  song = makeMelody(data[glas][3], data[glas][4])
+  song = makeMelody(data[activePage][glas][3], data[activePage][glas][4])
 
   qs('#trackName').innerHTML = '"' + qs('#' + glas).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
   qs('#btnPlay').classList.remove("not-active");
