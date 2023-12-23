@@ -1,4 +1,4 @@
-const tempoConst = 120,
+const tempoConst = 62,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
       vol = 70,
       qs = (sel) => document.querySelector(sel)
