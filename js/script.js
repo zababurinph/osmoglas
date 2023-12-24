@@ -2,7 +2,7 @@ const tempoConst = 62,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
       vol = 70,
       qs = (sel) => document.querySelector(sel)
-      // qa = (sel) => document.querySelectorAll(sel);
+      qa = (sel) => document.querySelectorAll(sel);
 
 let song = "",
     glas = "glas1",
@@ -15,6 +15,8 @@ let song = "",
     activePage = 'tropar';
 
 window.addEventListener("load", (e) => {
+  qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
+  qs('.' + activePage).classList.add("keyChoise");
   qs('#' + glas).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
   qs('#' + tempoKey).classList.add("keyChoise");
@@ -25,39 +27,43 @@ window.addEventListener("load", (e) => {
 });
 
 window.addEventListener("resize", (e) => {
-    if (document.documentElement.clientWidth > 600)
-      qs('#mobileMenu').classList.remove("active");
-  }, true
-)
+    if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
+}, true)
 
-function resetVolume(id) {
-  qs('#' + id).value = vol;
-}
+const resetVolume = (id) => qs('#' + id).value = vol;
 
-function changeActiveParts(parts, value) {
-  value
-    ? parts.map((part) => {
+const changeActiveParts = (parts, value) =>
+  value ? parts.map((part) => {
         qs('#' + part).classList.remove("off");
         qs('#' + part.slice(0, -1)).checked = true;
         qs('#' + part.slice(0, -1) + "Vol").classList.remove("off");
         qs('#' + part.slice(0, -1) + "Res").classList.remove("off");
-      })
-    : parts.map((part) => {
+      }) : parts.map((part) => {
         qs('#' + part).classList.add("off");
         qs('#' + part.slice(0, -1)).checked = false;
         qs('#' + part.slice(0, -1) + "Vol").classList.add("off");
         qs('#' + part.slice(0, -1) + "Res").classList.add("off");
       });
+
+function choosePage(id) {
+  qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
+  qa('.' + id).forEach(e => e.classList.add('keyChoise'));
+  changeGlas(glas, id);
+  activePage = id;
 }
 
 function chooseGlas(id) {
   qs('#' + glas).classList.remove("keyChoise");
   qs('#' + id).classList.add("keyChoise");
-  qs('#textMelody').innerHTML = data[activePage][id][5] //[Number(id.replace("glas", "")) - 1];
-  changeActiveParts(parts, false);
-  changeActiveParts(data[activePage][id][0], true);
-  song = makeShortMelody(data[activePage][id][1], data[activePage][id][2]);
+  changeGlas(id, activePage);
   glas = id;
+}
+
+function changeGlas(glasID, activePageID) {
+  qs('#textMelody').innerHTML = data[activePageID][glasID][5];
+  changeActiveParts(parts, false);
+  changeActiveParts(data[activePageID][glasID][0], true);
+  song = makeShortMelody(data[activePageID][glasID][1], data[activePageID][glasID][2]);
   qs('#player_short').src = song;
 }
 
@@ -162,4 +168,5 @@ function downloadSong() {
 
 function openMenu() {
   qs('#mobileMenu').classList.toggle("active");
+  qs('.menuLogo').classList.toggle('menuLogoOpen')
 }

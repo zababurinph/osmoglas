@@ -18,8 +18,8 @@
             <h1 style="margin-left: 20px">Осмогласие</h1>
         </div>
         <div class="menu">
-            <a href="index.html" class="btnMenu">Тропари</a>
-            <a href="instruction.html" class="btnMenu">Кондаки</a>
+            <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
+            <div class="btnMenu kondak" onclick="choosePage('kondak')">Кондаки</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -27,8 +27,8 @@
         </div>
     </div>
     <div class="mobileMenu" id="mobileMenu">
-        <a href="index.html" class="btnMobileMenu">Главная</a>
-        <a href="instruction.html" class="btnMobileMenu">Инструкция</a>
+        <div class="btnMenuMobile tropar" onclick="choosePage('tropar')">Тропари</div>
+        <div class="btnMenuMobile kondak" onclick="choosePage('kondak')">Кондаки</div>
     </div>
 
     <h3>Выберите глас:</h3>
