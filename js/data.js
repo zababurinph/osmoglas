@@ -1,4 +1,7 @@
 const data = {
+    favorite: {
+
+    },
     tropar: {
         glas1: [
             ['soprano1L', 'altL', 'tenor1L', 'baritonL', 'basL'],

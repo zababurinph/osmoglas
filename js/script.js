@@ -14,6 +14,8 @@ let song = "",
     velocity = [70, 70, 70, 70, 70, 70, 70],
     activePage = 'kondak';
 
+
+
 window.addEventListener("load", (e) => {
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
   qs('.' + activePage).classList.add("keyChoise");

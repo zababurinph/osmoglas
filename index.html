@@ -20,6 +20,7 @@
         <div class="menu">
             <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
             <div class="btnMenu kondak" onclick="choosePage('kondak')">Кондаки</div>
+            <div class="btnMenu favorite off" onclick="choosePage('favorite')">Избранное</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -29,6 +30,7 @@
     <div class="mobileMenu" id="mobileMenu">
         <div class="btnMenuMobile tropar" onclick="choosePage('tropar')">Тропари</div>
         <div class="btnMenuMobile kondak" onclick="choosePage('kondak')">Кондаки</div>
+        <div class="btnMenuMobile favorite off" onclick="choosePage('favorite')">Избранное</div>
     </div>
 
     <h3>Выберите глас:</h3>
@@ -123,6 +125,9 @@
         <a href="https://ztd-prod.ru" target="_blank">ztd-prod.ru</a>
     </div>
 
+    <script type="text/template" id="user">
+        <p>Hello, {:name}</p>
+    </script>
     <!--  data  -->
     <script src="./js/data.js"></script>
     <!--  scripts  -->
