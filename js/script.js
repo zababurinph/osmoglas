@@ -15,6 +15,7 @@ let song = "",
     activePage = 'stihira';
 
 window.addEventListener("load", (e) => {
+  generateTemlate(activePage);
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
   qs('.' + activePage).classList.add("keyChoise");
   qs('#' + glas).classList.add("keyChoise");
@@ -31,22 +32,31 @@ window.addEventListener("resize", (e) => {
     if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
 }, true)
 
-// function template(tag, id, classList, text) {
-//   const tmp = document.createElement(tag);
-//   tmp.id = id;
-//   if (classList !== '') tmp.classList.add(classList);
-//   tmp.innerText = text;
-//   return tmp;
-// }
-//
-// function generateDiv(id) {
-//   const container = qs('#generator');
-//
-//   container.appendChild(template('h3', '', '', 'Выберите глас:'));
-//   container.appendChild(template('daiv', 'glas1', 'btn', 'Глас 1'));
-//
-//   console.log(container);
-// }
+function generateTemlate(id) {
+  if (['tropar', 'kondak', 'stihira'].some(e => e === id)) {
+    qs('#template').innerHTML =
+        '<h3>Выберите глас:</h3>' +
+        '<div class="glass">' +
+          '<div class="btn" onclick="chooseGlas(`glas1`)" id="glas1">Глас 1</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas2`)" id="glas2">Глас 2</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas3`)" id="glas3">Глас 3</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas4`)" id="glas4">Глас 4</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas5`)" id="glas5">Глас 5</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas6`)" id="glas6">Глас 6</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas7`)" id="glas7">Глас 7</div>' +
+          '<div class="btn" onclick="chooseGlas(`glas8`)" id="glas8">Глас 8</div>' +
+        '</div>';
+    qs('#' + glas).classList.add("keyChoise");
+  } else if (id === 'favorites') {
+    qs('#template').innerHTML =
+        '<h3>Выберите мелодию:</h3>' +
+        '<div class="glass">' +
+          '<div class="btn" onclick="chooseGlas(`glas1`)" id="glas1">Глас 1</div>' +
+        '</div>'
+  } else {
+    qs('#template').innerHTML = '<h3>Неизвестная страница</h3>'
+  }
+}
 
 const resetVolume = (id) => qs('#' + id).value = vol;
 
@@ -64,6 +74,7 @@ const changeActiveParts = (parts, value) =>
       });
 
 function choosePage(id) {
+  generateTemlate(id)
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
   changeGlas(glas, id);

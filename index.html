@@ -21,7 +21,7 @@
             <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
             <div class="btnMenu kondak" onclick="choosePage('kondak')">Кондаки</div>
             <div class="btnMenu stihira" onclick="choosePage('stihira')">Стихиры</div>
-            <div class="btnMenu favorite off" onclick="generateDiv('favorite')">Избранное</div>
+            <div class="btnMenu favorite" onclick="generateTemlate('favorite')">Избранное</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -35,20 +35,7 @@
         <div class="btnMenuMobile favorite off" onclick="choosePage('favorite')">Избранное</div>
     </div>
 
-    <div id="generator" class="glass"></div>
-
-    <h3>Выберите глас:</h3>
-
-    <div class="glass">
-            <div class="btn" onclick="chooseGlas('glas1')" id="glas1">Глас 1</div>
-            <div class="btn" onclick="chooseGlas('glas2')" id="glas2">Глас 2</div>
-            <div class="btn" onclick="chooseGlas('glas3')" id="glas3">Глас 3</div>
-            <div class="btn" onclick="chooseGlas('glas4')" id="glas4">Глас 4</div>
-            <div class="btn" onclick="chooseGlas('glas5')" id="glas5">Глас 5</div>
-            <div class="btn" onclick="chooseGlas('glas6')" id="glas6">Глас 6</div>
-            <div class="btn" onclick="chooseGlas('glas7')" id="glas7">Глас 7</div>
-            <div class="btn" onclick="chooseGlas('glas8')" id="glas8">Глас 8</div>
-    </div>
+    <div id="template" class="glass"></div>
 
     <h3 id="textMelodyShort"></h3>
 
