@@ -12,7 +12,7 @@ let song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'kondak';
+    activePage = 'stihira';
 
 window.addEventListener("load", (e) => {
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
@@ -102,17 +102,22 @@ function chooseTempo(value, id) {
 
 function generateSong() {
   golosa = ["soprano1", "soprano2", "alt", "tenor1", "tenor2", "bariton", "bas"].map((id) => qs('#' + id).checked);
-  velocity = ["soprano1Vol", "soprano2Vol", "altVol", "tenor1Vol", "tenor2Vol", "baritonVol", "basVol"].map((id) => qs('#' + id).value);
 
-  console.log(golosa);
-  console.log(velocity);
+  if (golosa.every(g => g === false)) {
+    window.alert('Невозможно сгенерировать мелодию: не выбрана ни одна партия')
+  } else {
+    velocity = ["soprano1Vol", "soprano2Vol", "altVol", "tenor1Vol", "tenor2Vol", "baritonVol", "basVol"].map((id) => qs('#' + id).value);
 
-  song = makeMelody(data[activePage][glas][3], data[activePage][glas][4])
+    console.log(golosa);
+    console.log(velocity);
 
-  qs('#trackName').innerHTML = '"' + qs('#' + glas).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
-  qs('#btnPlay').classList.remove("not-active");
-  qs('#trackName').classList.remove("not-active");
-  qs('#player').src = song;
+    song = makeMelody(data[activePage][glas][3], data[activePage][glas][4])
+
+    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + glas).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
+    qs('#btnPlay').classList.remove("not-active");
+    qs('#trackName').classList.remove("not-active");
+    qs('#player').src = song;
+  }
 }
 
 function rotateArray(arr) {
