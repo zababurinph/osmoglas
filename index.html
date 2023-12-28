@@ -20,7 +20,8 @@
         <div class="menu">
             <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
             <div class="btnMenu kondak" onclick="choosePage('kondak')">Кондаки</div>
-            <div class="btnMenu favorite off" onclick="choosePage('favorite')">Избранное</div>
+            <div class="btnMenu stihira" onclick="choosePage('stihira')">Стихиры</div>
+            <div class="btnMenu favorite off" onclick="generateDiv('favorite')">Избранное</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -30,8 +31,11 @@
     <div class="mobileMenu" id="mobileMenu">
         <div class="btnMenuMobile tropar" onclick="choosePage('tropar')">Тропари</div>
         <div class="btnMenuMobile kondak" onclick="choosePage('kondak')">Кондаки</div>
+        <div class="btnMenuMobile stihira" onclick="choosePage('stihira')">Стихиры</div>
         <div class="btnMenuMobile favorite off" onclick="choosePage('favorite')">Избранное</div>
     </div>
+
+    <div id="generator" class="glass"></div>
 
     <h3>Выберите глас:</h3>
 
@@ -46,7 +50,7 @@
             <div class="btn" onclick="chooseGlas('glas8')" id="glas8">Глас 8</div>
     </div>
 
-    <h3>Бог Госпо́дь и яви́ся нам, благослове́н Гряды́й во И́мя Госпо́дне.</h3>
+    <h3 id="textMelodyShort"></h3>
 
     <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
 

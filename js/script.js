@@ -14,15 +14,14 @@ let song = "",
     velocity = [70, 70, 70, 70, 70, 70, 70],
     activePage = 'kondak';
 
-
-
 window.addEventListener("load", (e) => {
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
   qs('.' + activePage).classList.add("keyChoise");
   qs('#' + glas).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
   qs('#' + tempoKey).classList.add("keyChoise");
-  qs('#textMelody').innerHTML = data[activePage].glas1[5];
+  qs('#textMelody').innerHTML = data[activePage].glas1[6];
+  qs('#textMelodyShort').innerHTML = data[activePage].glas1[5];
   song = makeShortMelody(data[activePage].glas1[1], data[activePage].glas1[2]);
   qs('#player_short').src = song;
   changeActiveParts(data[activePage].glas1[0], true);
@@ -31,6 +30,23 @@ window.addEventListener("load", (e) => {
 window.addEventListener("resize", (e) => {
     if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
 }, true)
+
+// function template(tag, id, classList, text) {
+//   const tmp = document.createElement(tag);
+//   tmp.id = id;
+//   if (classList !== '') tmp.classList.add(classList);
+//   tmp.innerText = text;
+//   return tmp;
+// }
+//
+// function generateDiv(id) {
+//   const container = qs('#generator');
+//
+//   container.appendChild(template('h3', '', '', 'Выберите глас:'));
+//   container.appendChild(template('daiv', 'glas1', 'btn', 'Глас 1'));
+//
+//   console.log(container);
+// }
 
 const resetVolume = (id) => qs('#' + id).value = vol;
 
@@ -62,7 +78,8 @@ function chooseGlas(id) {
 }
 
 function changeGlas(glasID, activePageID) {
-  qs('#textMelody').innerHTML = data[activePageID][glasID][5];
+  qs('#textMelody').innerHTML = data[activePageID][glasID][6];
+  qs('#textMelodyShort').innerHTML = data[activePageID][glasID][5];
   changeActiveParts(parts, false);
   changeActiveParts(data[activePageID][glasID][0], true);
   song = makeShortMelody(data[activePageID][glasID][1], data[activePageID][glasID][2]);
