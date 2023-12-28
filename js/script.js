@@ -5,7 +5,7 @@ const tempoConst = 62,
       qa = (sel) => document.querySelectorAll(sel);
 
 let song = "",
-    glas = "glas1",
+    songID = "",
     tempoKey = "mid",
     tempo = 100,
     toneKey = "toneFa",
@@ -16,17 +16,17 @@ let song = "",
 
 window.addEventListener("load", (e) => {
   generateTemlate(activePage);
+  songID = Object.keys(data[activePage])[0];
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
-  qs('.' + activePage).classList.add("keyChoise");
-  qs('#' + glas).classList.add("keyChoise");
+  qs('#' + songID).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
   qs('#' + tempoKey).classList.add("keyChoise");
-  qs('#textMelody').innerHTML = data[activePage].glas1[6];
-  qs('#textMelodyShort').innerHTML = data[activePage].glas1[5];
-  song = makeShortMelody(data[activePage].glas1[1], data[activePage].glas1[2]);
+  qs('#textMelody').innerHTML = data[activePage][songID][6];
+  qs('#textMelodyShort').innerHTML = data[activePage][songID][5];
+  song = makeShortMelody(data[activePage][songID][1], data[activePage][songID][2]);
   qs('#player_short').src = song;
-  changeActiveParts(data[activePage].glas1[0], true);
-});
+  changeActiveParts(data[activePage][songID][0], true);
+})
 
 window.addEventListener("resize", (e) => {
     if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
@@ -37,22 +37,23 @@ function generateTemlate(id) {
     qs('#template').innerHTML =
         '<h3>Выберите глас:</h3>' +
         '<div class="glass">' +
-          '<div class="btn" onclick="chooseGlas(`glas1`)" id="glas1">Глас 1</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas2`)" id="glas2">Глас 2</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas3`)" id="glas3">Глас 3</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas4`)" id="glas4">Глас 4</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas5`)" id="glas5">Глас 5</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas6`)" id="glas6">Глас 6</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas7`)" id="glas7">Глас 7</div>' +
-          '<div class="btn" onclick="chooseGlas(`glas8`)" id="glas8">Глас 8</div>' +
-        '</div>';
-    qs('#' + glas).classList.add("keyChoise");
-  } else if (id === 'favorites') {
+          '<div class="btn keyChoise" onclick="chooseSong(`glas1`)" id="glas1">Глас 1</div>' +
+          '<div class="btn" onclick="chooseSong(`glas2`)" id="glas2">Глас 2</div>' +
+          '<div class="btn" onclick="chooseSong(`glas3`)" id="glas3">Глас 3</div>' +
+          '<div class="btn" onclick="chooseSong(`glas4`)" id="glas4">Глас 4</div>' +
+          '<div class="btn" onclick="chooseSong(`glas5`)" id="glas5">Глас 5</div>' +
+          '<div class="btn" onclick="chooseSong(`glas6`)" id="glas6">Глас 6</div>' +
+          '<div class="btn" onclick="chooseSong(`glas7`)" id="glas7">Глас 7</div>' +
+          '<div class="btn" onclick="chooseSong(`glas8`)" id="glas8">Глас 8</div>' +
+        '</div>' +
+        '<h3 id="textMelodyShort"></h3>';
+  } else if (id === 'favorite') {
     qs('#template').innerHTML =
         '<h3>Выберите мелодию:</h3>' +
         '<div class="glass">' +
-          '<div class="btn" onclick="chooseGlas(`glas1`)" id="glas1">Глас 1</div>' +
-        '</div>'
+          '<div class="btn keyChoise" onclick="chooseSong(`kenguru`)" id="kenguru">Кенгуру</div>' +
+        '</div>' +
+        '<h3 id="textMelodyShort"></h3>';
   } else {
     qs('#template').innerHTML = '<h3>Неизвестная страница</h3>'
   }
@@ -74,26 +75,29 @@ const changeActiveParts = (parts, value) =>
       });
 
 function choosePage(id) {
-  generateTemlate(id)
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
-  changeGlas(glas, id);
+  generateTemlate(id);
+  let newSongID = Object.keys(data[id])[0];
+  changeSong(newSongID, id);
+  songID = newSongID;
   activePage = id;
 }
 
-function chooseGlas(id) {
-  qs('#' + glas).classList.remove("keyChoise");
+function chooseSong(id) {
+  console.log(songID)
+  qs('#' + songID).classList.remove("keyChoise");
   qs('#' + id).classList.add("keyChoise");
-  changeGlas(id, activePage);
-  glas = id;
+  changeSong(id, activePage);
+  songID = id;
 }
 
-function changeGlas(glasID, activePageID) {
-  qs('#textMelody').innerHTML = data[activePageID][glasID][6];
-  qs('#textMelodyShort').innerHTML = data[activePageID][glasID][5];
+function changeSong(melodyID, pageID) {
+  qs('#textMelody').innerHTML = data[pageID][melodyID][6];
+  qs('#textMelodyShort').innerHTML = data[pageID][melodyID][5];
   changeActiveParts(parts, false);
-  changeActiveParts(data[activePageID][glasID][0], true);
-  song = makeShortMelody(data[activePageID][glasID][1], data[activePageID][glasID][2]);
+  changeActiveParts(data[pageID][melodyID][0], true);
+  song = makeShortMelody(data[pageID][melodyID][1], data[pageID][melodyID][2]);
   qs('#player_short').src = song;
 }
 
@@ -122,9 +126,9 @@ function generateSong() {
     console.log(golosa);
     console.log(velocity);
 
-    song = makeMelody(data[activePage][glas][3], data[activePage][glas][4])
+    song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + glas).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
+    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
     qs('#btnPlay').classList.remove("not-active");
     qs('#trackName').classList.remove("not-active");
     qs('#player').src = song;
