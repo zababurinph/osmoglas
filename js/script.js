@@ -30,7 +30,7 @@ window.addEventListener("resize", (e) => {
 }, true)
 
 function generateTemplate(id) {
-  let inner = '<h3>Выберите мелодию:</h3><div class="glass">';
+  let inner = '<h3>Выберите мелодию:</h3><div class="flex">';
   Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>')
   inner += '</div><h3 id="textMelodyShort"></h3>';
   qs('#template').innerHTML = inner;

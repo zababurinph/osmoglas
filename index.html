@@ -35,12 +35,12 @@
         <div class="btnMenuMobile favorite off" onclick="choosePage('favorite')">Избранное</div>
     </div>
 
-    <div id="template" class="glass"></div>
+    <div id="template" class="flex"></div>
 
     <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
 
     <h3>Выберите тональность:</h3>
-    <div class="glass">
+    <div class="flex">
         <div class="btn" onclick="chooseTone(60, 'toneDo')" id="toneDo">До</div>
         <div class="btn" onclick="chooseTone(62, 'toneRe')" id="toneRe">Ре</div>
         <div class="btn" onclick="chooseTone(64, 'toneMi')" id="toneMi">Ми</div>
@@ -50,7 +50,8 @@
         <div class="btn" onclick="chooseTone(71, 'toneSi')" id="toneSi">Си</div>
     </div>
 
-    <div class="glass">
+    <br><br>
+    <div class="flex">
         <h3>Выберите темп:</h3>
         <input type="range" id="tempo" min="-150" value="-100" max="-50" step="1" style="width: 300px"/>
     </div>
