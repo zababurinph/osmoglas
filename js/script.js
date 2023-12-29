@@ -37,6 +37,7 @@ function generateTemplate(id) {
 }
 
 const resetVolume = (id) => qs('#' + id).value = vol;
+const resetTempo = (id) => qs('#' + id).value = -100;
 
 const changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
@@ -99,7 +100,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + Math.abs(qs('#tempo').value);
+    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + (qs('#tempo').value);
     qs('#btnPlay').classList.remove("not-active");
     qs('#trackName').classList.remove("not-active");
     qs('#player').src = song;

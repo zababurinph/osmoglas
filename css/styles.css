@@ -86,6 +86,22 @@ h3 {
     display: none;
 }
 
+.resetTempo {
+    height: 25px;
+    padding: 0 5px;
+    margin: 15px 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--black);
+    background-color: var(--second-color);
+    border-radius: 5px;
+}
+
+.resetTempo:hover {
+    background-color: var(--third-color);
+    color: var(--main-color);
+}
+
 .volumes {
     display: flex;
     flex-direction: column;
