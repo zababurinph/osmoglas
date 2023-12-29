@@ -6,7 +6,7 @@ const tempoConst = 150,
 
 let song = "",
     songID = "",
-    toneKey = "toneFa",
+    toneKey = "tone65",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
@@ -99,7 +99,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе ' + Math.abs(qs('#tempo').value);
+    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + Math.abs(qs('#tempo').value);
     qs('#btnPlay').classList.remove("not-active");
     qs('#trackName').classList.remove("not-active");
     qs('#player').src = song;
