@@ -1,4 +1,4 @@
-const tempoConst = 62,
+const tempoConst = 150,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
       vol = 70,
       qs = (sel) => document.querySelector(sel)
@@ -6,8 +6,6 @@ const tempoConst = 62,
 
 let song = "",
     songID = "",
-    tempoKey = "mid",
-    tempo = 100,
     toneKey = "toneFa",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
@@ -15,12 +13,11 @@ let song = "",
     activePage = 'stihira';
 
 window.addEventListener("load", (e) => {
-  generateTemlate(activePage);
+  generateTemplate(activePage);
   songID = Object.keys(data[activePage])[0];
   qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
   qs('#' + songID).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
-  qs('#' + tempoKey).classList.add("keyChoise");
   qs('#textMelody').innerHTML = data[activePage][songID][6];
   qs('#textMelodyShort').innerHTML = data[activePage][songID][5];
   song = makeShortMelody(data[activePage][songID][1], data[activePage][songID][2]);
@@ -32,31 +29,11 @@ window.addEventListener("resize", (e) => {
     if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
 }, true)
 
-function generateTemlate(id) {
-  if (['tropar', 'kondak', 'stihira'].some(e => e === id)) {
-    qs('#template').innerHTML =
-        '<h3>Выберите глас:</h3>' +
-        '<div class="glass">' +
-          '<div class="btn keyChoise" onclick="chooseSong(`glas1`)" id="glas1">Глас 1</div>' +
-          '<div class="btn" onclick="chooseSong(`glas2`)" id="glas2">Глас 2</div>' +
-          '<div class="btn" onclick="chooseSong(`glas3`)" id="glas3">Глас 3</div>' +
-          '<div class="btn" onclick="chooseSong(`glas4`)" id="glas4">Глас 4</div>' +
-          '<div class="btn" onclick="chooseSong(`glas5`)" id="glas5">Глас 5</div>' +
-          '<div class="btn" onclick="chooseSong(`glas6`)" id="glas6">Глас 6</div>' +
-          '<div class="btn" onclick="chooseSong(`glas7`)" id="glas7">Глас 7</div>' +
-          '<div class="btn" onclick="chooseSong(`glas8`)" id="glas8">Глас 8</div>' +
-        '</div>' +
-        '<h3 id="textMelodyShort"></h3>';
-  } else if (id === 'favorite') {
-    qs('#template').innerHTML =
-        '<h3>Выберите мелодию:</h3>' +
-        '<div class="glass">' +
-          '<div class="btn keyChoise" onclick="chooseSong(`kenguru`)" id="kenguru">Кенгуру</div>' +
-        '</div>' +
-        '<h3 id="textMelodyShort"></h3>';
-  } else {
-    qs('#template').innerHTML = '<h3>Неизвестная страница</h3>'
-  }
+function generateTemplate(id) {
+  let inner = '<h3>Выберите мелодию:</h3><div class="glass">';
+  Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>')
+  inner += '</div><h3 id="textMelodyShort"></h3>';
+  qs('#template').innerHTML = inner;
 }
 
 const resetVolume = (id) => qs('#' + id).value = vol;
@@ -77,9 +54,10 @@ const changeActiveParts = (parts, value) =>
 function choosePage(id) {
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
-  generateTemlate(id);
+  generateTemplate(id);
   let newSongID = Object.keys(data[id])[0];
   changeSong(newSongID, id);
+  qs('#' + newSongID).classList.add("keyChoise");
   songID = newSongID;
   activePage = id;
 }
@@ -108,13 +86,6 @@ function chooseTone(value, id) {
   tone = value;
 }
 
-function chooseTempo(value, id) {
-  qs('#' + tempoKey).classList.remove("keyChoise");
-  qs('#' + id).classList.add("keyChoise");
-  tempoKey = id;
-  tempo = value;
-}
-
 function generateSong() {
   golosa = ["soprano1", "soprano2", "alt", "tenor1", "tenor2", "bariton", "bas"].map((id) => qs('#' + id).checked);
 
@@ -128,7 +99,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе "' + qs('#' + tempoKey).textContent + '"';
+    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тоне  "' + qs('#' + toneKey).textContent + '" в темпе ' + Math.abs(qs('#tempo').value);
     qs('#btnPlay').classList.remove("not-active");
     qs('#trackName').classList.remove("not-active");
     qs('#player').src = song;
@@ -152,7 +123,8 @@ function makeMelody(melodyData, tempoData) {
   let delta = 65 - tone,
     melody = [],
     temp = [],
-    volume = [];
+    volume = [],
+    tempo = Math.abs(qs('#tempo').value);
 
   golosa.map((g, i) => {
     if (g) {
