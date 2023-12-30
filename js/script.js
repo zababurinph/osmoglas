@@ -10,7 +10,7 @@ let song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'favorite',
+    activePage = 'stihira',
     pageName = '';
 
 window.addEventListener("load", (e) => {
@@ -117,7 +117,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + (qs('#tempo').value);
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (qs('#tempo').value);
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
   }
