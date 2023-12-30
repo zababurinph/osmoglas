@@ -19,6 +19,12 @@ html, body {
     margin-right: 20px;
 }
 
+#wrongPassword {
+    display: none;
+    margin-top: 0;
+    color: var(--third-color);
+}
+
 h3 {
     margin: 20px;
 }

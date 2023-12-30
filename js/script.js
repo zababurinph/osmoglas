@@ -11,15 +11,19 @@ let song = "",
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
     activePage = 'favorite',
-    access = false;
+    pageName = '';
 
 window.addEventListener("load", (e) => {
+  // alert(CryptoJS.MD5('fermata'))
   qs('#' + toneKey).classList.add("keyChoise");
   choosePage(activePage);
 })
 
 window.addEventListener("resize", (e) => {
-    if (document.documentElement.clientWidth > 600) qs('#mobileMenu').classList.remove("active")
+    if (document.documentElement.clientWidth > 700) {
+      qs('#mobileMenu').classList.remove("active");
+      qs('.menuLogo').classList.remove('menuLogoOpen');
+    }
 }, true)
 
 function generateTemplate(id) {
@@ -46,24 +50,34 @@ const changeActiveParts = (parts, value) =>
       });
 
 function choosePage(id) {
-  if (id === 'favorite') {
-    if (!access) qs('#bodyDiv').style.display = 'none';
-    qs('#password').style.display = 'flex';
-  }
-  else {
-    qs('#password').style.display = 'none';
-    qs('#bodyDiv').style.display = 'block';
-  }
+  qs('#wrongPassword').style.display = 'none';
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
-  generateTemplate(id);
-  let newSongID = Object.keys(data[id])[0];
-  changeSong(newSongID, id);
-  qs('#' + newSongID).classList.add("keyChoise");
-  songID = newSongID;
-  activePage = id;
   qs('#mobileMenu').classList.remove("active");
-  qs('.menuLogo').classList.remove('menuLogoOpen')
+  qs('.menuLogo').classList.remove('menuLogoOpen');
+  activePage = id;
+
+  if (data.favorite.some(e => e === id)) {
+    pageName = 'Избранное';
+    qa('.favorite').forEach(e => e.classList.add('keyChoise'));
+  }
+  else {
+    pageName = qs('.' + id).textContent;
+    qa('.favorite').forEach(e => e.classList.remove('keyChoise'));
+  }
+
+  if (id === 'favorite') {
+    qs('#bodyDiv').style.display = 'none';
+    qs('#password').style.display = 'flex';
+  } else {
+    qs('#password').style.display = 'none';
+    qs('#bodyDiv').style.display = 'block';
+    generateTemplate(id);
+    let newSongID = Object.keys(data[id])[0];
+    changeSong(newSongID, id);
+    qs('#' + newSongID).classList.add("keyChoise");
+    songID = newSongID;
+  }
 }
 
 function chooseSong(id) {
@@ -103,7 +117,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + (qs('#tempo').value);
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + (qs('#tempo').value);
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
   }
@@ -186,8 +200,17 @@ function openMenu() {
 }
 
 function openPage() {
-  if (CryptoJS.MD5(qs('#inputPassword').value) == key) {
-    qs('#bodyDiv').style.display = 'block';
-    access = true;
+  const k = CryptoJS.MD5(qs('#inputPassword').value);
+  if (k == key1) {
+    choosePage('pstgu');
+    qs('#password').style.display = 'flex';
+    qs('#wrongPassword').style.display = 'none';
+  } else if (k == key2) {
+    choosePage('fermata');
+    qs('#password').style.display = 'flex';
+    qs('#wrongPassword').style.display = 'none';
+  } else {
+    qs('#bodyDiv').style.display = 'none';
+    qs('#wrongPassword').style.display = 'block';
   }
 }
