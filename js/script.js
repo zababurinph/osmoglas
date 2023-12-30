@@ -1,4 +1,4 @@
-const tempoConst = 150,
+const tempoConst = 70,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
       vol = 70,
       qs = (sel) => document.querySelector(sel)
@@ -14,7 +14,7 @@ let song = "",
     pageName = '';
 
 window.addEventListener("load", (e) => {
-  // alert(CryptoJS.MD5('fermata'))
+  // alert(CryptoJS.MD5(''))
   qs('#' + toneKey).classList.add("keyChoise");
   choosePage(activePage);
 })
