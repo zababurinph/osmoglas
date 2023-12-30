@@ -32,86 +32,96 @@
         <div class="btnMenuMobile tropar" onclick="choosePage('tropar')">Тропари</div>
         <div class="btnMenuMobile kondak" onclick="choosePage('kondak')">Кондаки</div>
         <div class="btnMenuMobile stihira" onclick="choosePage('stihira')">Стихиры</div>
-        <div class="btnMenuMobile favorite off" onclick="choosePage('favorite')">Избранное</div>
+        <div class="btnMenuMobile favorite" onclick="choosePage('favorite')">Избранное</div>
     </div>
 
-    <div id="template" class="flex"></div>
-
-    <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
-
-    <h3>Транспонирование (шаг в полутонах):</h3>
-    <div class="flex">
-        <div class="btn btn_mini" onclick="chooseTone(59, 'tone59')" id="tone59">-6</div>
-        <div class="btn btn_mini" onclick="chooseTone(60, 'tone60')" id="tone60">-5</div>
-        <div class="btn btn_mini" onclick="chooseTone(61, 'tone61')" id="tone61">-4</div>
-        <div class="btn btn_mini" onclick="chooseTone(62, 'tone62')" id="tone62">-3</div>
-        <div class="btn btn_mini" onclick="chooseTone(63, 'tone63')" id="tone63">-2</div>
-        <div class="btn btn_mini" onclick="chooseTone(64, 'tone64')" id="tone64">-1</div>
-        <div class="btn btn_mini" onclick="chooseTone(65, 'tone65')" id="tone65">0</div>
-        <div class="btn btn_mini" onclick="chooseTone(66, 'tone66')" id="tone66">+1</div>
-        <div class="btn btn_mini" onclick="chooseTone(67, 'tone67')" id="tone67">+2</div>
-        <div class="btn btn_mini" onclick="chooseTone(68, 'tone68')" id="tone68">+3</div>
-        <div class="btn btn_mini" onclick="chooseTone(69, 'tone69')" id="tone69">+4</div>
-        <div class="btn btn_mini" onclick="chooseTone(70, 'tone70')" id="tone70">+5</div>
-        <div class="btn btn_mini" onclick="chooseTone(71, 'tone71')" id="tone71">+6</div>
-    </div>
-
-    <br><br>
-    <div class="flex">
-        <h3>Выберите темп:</h3>
-        <input type="range" id="tempo" min="-150" value="-100" max="-50" step="1" style="width: 300px"/>
-        <div class="resetTempo" onclick="resetTempo('tempo')" id="tempoRes">↻</div>
-    </div>
-
-    <h3>Выберите партии:</h3>
-    <div class="parts">
-        <div class="divcheck">
-            <input class='checkbox' type="checkbox" id="soprano1" />
-            <label for="soprano1" class="off" id="soprano1L">Сопрано 1</label>
-            <input class='checkbox' type="checkbox" id="soprano2" />
-            <label for="soprano2" class="off" id="soprano2L">Сопрано 2</label>
-            <input class='checkbox' type="checkbox" id="alt" />
-            <label for="alt" class="off" id="altL">Альт</label>
-            <input class='checkbox' type="checkbox" id="tenor1" />
-            <label for="tenor1" class="off" id="tenor1L">Тенор 1</label>
-            <input class='checkbox' type="checkbox" id="tenor2" />
-            <label for="tenor2" class="off" id="tenor2L">Тенор 2</label>
-            <input class='checkbox' type="checkbox" id="bariton" />
-            <label for="bariton" class="off" id="baritonL">Баритон</label>
-            <input class='checkbox' type="checkbox" id="bas" />
-            <label for="bas" class="off" id="basL">Бас</label>
-        </div>
-        <div class="volumes">
-            <input type="range" class="off" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="altVol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="baritonVol" min="0" value="70" max="127" step="1"/>
-            <input type="range" class="off" id="basVol" min="0" value="70" max="127" step="1"/>
-        </div>
-        <div class="resets">
-            <div class="off" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
-            <div class="off" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
-            <div class="off" onclick="resetVolume('altVol')" id="altRes">↻</div>
-            <div class="off" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
-            <div class="off" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
-            <div class="off" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
-            <div class="off" onclick="resetVolume('basVol')" id="basRes">↻</div>
-        </div>
-    </div>
-
-    <br><br>
-    <div class="btn" style="margin: 0 auto" onclick="generateSong()">Генерировать</div>
     <br>
-    <h3 id="textMelody">404</h3>
-    <br>
-    <h3 class="not-active" id="trackName">Track</h3>
-    <div class="not-active" id="btnPlay">
-        <midi-player sound-font id="player" visualizer="#playerV"></midi-player>
-        <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>
+    <div id="password">
+        <h3>Введите пароль:</h3>
+        <input type="text" id="inputPassword"/>
+        <div class="btn" onclick="openPage()">Открыть</div>
     </div>
 
+    <div id="bodyDiv">
+        <div id="template" class="flex"></div>
+
+        <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
+
+        <h3>Транспонирование (шаг в полутонах):</h3>
+        <div class="flex">
+            <div class="btn btn_mini" onclick="chooseTone(59, 'tone59')" id="tone59">-6</div>
+            <div class="btn btn_mini" onclick="chooseTone(60, 'tone60')" id="tone60">-5</div>
+            <div class="btn btn_mini" onclick="chooseTone(61, 'tone61')" id="tone61">-4</div>
+            <div class="btn btn_mini" onclick="chooseTone(62, 'tone62')" id="tone62">-3</div>
+            <div class="btn btn_mini" onclick="chooseTone(63, 'tone63')" id="tone63">-2</div>
+            <div class="btn btn_mini" onclick="chooseTone(64, 'tone64')" id="tone64">-1</div>
+            <div class="btn btn_mini" onclick="chooseTone(65, 'tone65')" id="tone65">0</div>
+            <div class="btn btn_mini" onclick="chooseTone(66, 'tone66')" id="tone66">+1</div>
+            <div class="btn btn_mini" onclick="chooseTone(67, 'tone67')" id="tone67">+2</div>
+            <div class="btn btn_mini" onclick="chooseTone(68, 'tone68')" id="tone68">+3</div>
+            <div class="btn btn_mini" onclick="chooseTone(69, 'tone69')" id="tone69">+4</div>
+            <div class="btn btn_mini" onclick="chooseTone(70, 'tone70')" id="tone70">+5</div>
+            <div class="btn btn_mini" onclick="chooseTone(71, 'tone71')" id="tone71">+6</div>
+        </div>
+
+        <br><br>
+        <div class="flex">
+            <h3>Выберите темп:</h3>
+            <input type="range" id="tempo" min="-170" value="-100" max="-40" step="1" />
+            <div class="resetTempo" onclick="resetTempo('tempo')" id="tempoRes">↻</div>
+        </div>
+
+        <h3>Выберите партии:</h3>
+        <div class="parts">
+            <div class="divcheck">
+                <input class='checkbox' type="checkbox" id="soprano1" />
+                <label for="soprano1" class="off" id="soprano1L">Сопрано 1</label>
+                <input class='checkbox' type="checkbox" id="soprano2" />
+                <label for="soprano2" class="off" id="soprano2L">Сопрано 2</label>
+                <input class='checkbox' type="checkbox" id="alt" />
+                <label for="alt" class="off" id="altL">Альт</label>
+                <input class='checkbox' type="checkbox" id="tenor1" />
+                <label for="tenor1" class="off" id="tenor1L">Тенор 1</label>
+                <input class='checkbox' type="checkbox" id="tenor2" />
+                <label for="tenor2" class="off" id="tenor2L">Тенор 2</label>
+                <input class='checkbox' type="checkbox" id="bariton" />
+                <label for="bariton" class="off" id="baritonL">Баритон</label>
+                <input class='checkbox' type="checkbox" id="bas" />
+                <label for="bas" class="off" id="basL">Бас</label>
+            </div>
+            <div class="volumes">
+                <input type="range" class="off" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="altVol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="baritonVol" min="0" value="70" max="127" step="1"/>
+                <input type="range" class="off" id="basVol" min="0" value="70" max="127" step="1"/>
+            </div>
+            <div class="resets">
+                <div class="off" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
+                <div class="off" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
+                <div class="off" onclick="resetVolume('altVol')" id="altRes">↻</div>
+                <div class="off" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
+                <div class="off" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
+                <div class="off" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
+                <div class="off" onclick="resetVolume('basVol')" id="basRes">↻</div>
+            </div>
+        </div>
+
+        <br><br>
+        <div class="btn" style="margin: 0 auto" onclick="generateSong()">Генерировать</div>
+        <br>
+        <h3 id="textMelody">404</h3>
+        <br>
+        <div class="off" id="songDiv">
+            <h3 id="trackName">Track</h3>
+            <div id="btnPlay">
+                <midi-player sound-font id="player" visualizer="#playerV"></midi-player>
+                <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>
+            </div>
+        </div>
+    </div>
 
     <div class="footer">
         2022 (c) Тима Забабурин<br>
@@ -129,5 +139,7 @@
     <script src="./js/jsmidgen.js"></script>
     <script src="./js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
 </body>
 </html>

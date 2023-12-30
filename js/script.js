@@ -10,19 +10,12 @@ let song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'stihira';
+    activePage = 'favorite',
+    access = false;
 
 window.addEventListener("load", (e) => {
-  generateTemplate(activePage);
-  songID = Object.keys(data[activePage])[0];
-  qa('.' + activePage).forEach(e => e.classList.add('keyChoise'));
-  qs('#' + songID).classList.add("keyChoise");
   qs('#' + toneKey).classList.add("keyChoise");
-  qs('#textMelody').innerHTML = data[activePage][songID][6];
-  qs('#textMelodyShort').innerHTML = data[activePage][songID][5];
-  song = makeShortMelody(data[activePage][songID][1], data[activePage][songID][2]);
-  qs('#player_short').src = song;
-  changeActiveParts(data[activePage][songID][0], true);
+  choosePage(activePage);
 })
 
 window.addEventListener("resize", (e) => {
@@ -53,6 +46,14 @@ const changeActiveParts = (parts, value) =>
       });
 
 function choosePage(id) {
+  if (id === 'favorite') {
+    if (!access) qs('#bodyDiv').style.display = 'none';
+    qs('#password').style.display = 'flex';
+  }
+  else {
+    qs('#password').style.display = 'none';
+    qs('#bodyDiv').style.display = 'block';
+  }
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
   generateTemplate(id);
@@ -61,6 +62,8 @@ function choosePage(id) {
   qs('#' + newSongID).classList.add("keyChoise");
   songID = newSongID;
   activePage = id;
+  qs('#mobileMenu').classList.remove("active");
+  qs('.menuLogo').classList.remove('menuLogoOpen')
 }
 
 function chooseSong(id) {
@@ -101,8 +104,7 @@ function generateSong() {
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
     qs('#trackName').innerHTML = qs('.' + activePage).textContent + ' "' + qs('#' + songID).textContent + '" в тональности  "' + qs('#' + toneKey).textContent + '" в темпе ' + (qs('#tempo').value);
-    qs('#btnPlay').classList.remove("not-active");
-    qs('#trackName').classList.remove("not-active");
+    qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
   }
 }
@@ -181,4 +183,11 @@ function downloadSong() {
 function openMenu() {
   qs('#mobileMenu').classList.toggle("active");
   qs('.menuLogo').classList.toggle('menuLogoOpen')
+}
+
+function openPage() {
+  if (CryptoJS.MD5(qs('#inputPassword').value) == key) {
+    qs('#bodyDiv').style.display = 'block';
+    access = true;
+  }
 }

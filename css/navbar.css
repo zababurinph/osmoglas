@@ -108,12 +108,20 @@
     transform: translateX(30px);
 }
 
-@media (max-width: 600px) {
+#tempo {
+    width: 300px;
+}
+
+@media (max-width: 700px) {
     .menuLogo {
         display: block;
     }
 
     .btnMenu {
         display: none;
+    }
+
+    #tempo {
+        width: 200px;
     }
 }
