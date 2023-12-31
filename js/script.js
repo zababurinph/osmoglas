@@ -34,7 +34,7 @@ function generateTemplate(id) {
 }
 
 const resetVolume = (id) => qs('#' + id).value = vol;
-const resetTempo = (id) => qs('#' + id).value = -100;
+const resetTempo = (id) => qs('#' + id).value = -5;
 
 const changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
@@ -117,7 +117,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
 
-    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (qs('#tempo').value);
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 11);
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
   }
@@ -141,7 +141,7 @@ function makeMelody(melodyData, tempoData) {
     melody = [],
     temp = [],
     volume = [],
-    tempo = Math.abs(qs('#tempo').value);
+    tempo = Math.abs(qs('#tempo').value) * tempoConst / 3;
 
   golosa.map((g, i) => {
     if (g) {
