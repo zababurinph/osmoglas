@@ -10,7 +10,7 @@ let song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'stihira',
+    activePage = 'tropar',
     pageName = '';
 
 window.addEventListener("load", (e) => {
