@@ -11,5 +11,5 @@
 
 @font-face {
     font-family: 'CyrillicOld';
-    src: url("/fonts/cyrillicold.otf") format('truetype');
+    src: url("../fonts/cyrillicold.otf");
 }
