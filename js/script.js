@@ -1,10 +1,11 @@
-const tempoConst = 60,
+'use strict';
+var tempoConst = 60,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
       vol = 70,
-      qs = (sel) => document.querySelector(sel)
+      qs = (sel) => document.querySelector(sel),
       qa = (sel) => document.querySelectorAll(sel);
 
-let song = "",
+var song = "",
     songID = "",
     toneKey = "tone65",
     tone = 65,
@@ -19,16 +20,16 @@ window.addEventListener("load", function(e){
   choosePage(activePage);
 })
 
-window.addEventListener("resize", e => {
+window.addEventListener("resize", function (e) {
   if (document.documentElement.clientWidth > 820) qs('#mobileMenu').classList.remove("active");
 }, true)
 
-qs('#checkbox_navbar').addEventListener('change', function(e){
+qs('#checkbox_navbar').addEventListener('change', function(e) {
   qs('body').classList.toggle('add-font')
 })
 
 function generateTemplate(id) {
-  let inner = '<h3>Выберите мелодию:</h3><div class="flex">';
+  var inner = '<h3>Выберите мелодию:</h3><div class="flex">';
   Object.keys(data[id]).map(function(i){
     inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>'
   })
@@ -36,10 +37,10 @@ function generateTemplate(id) {
   qs('#template').innerHTML = inner;
 }
 
-const resetVolume = (id) => qs('#' + id).value = vol;
-const resetTempo = (id) => qs('#' + id).value = -5;
+var resetVolume = (id) => qs('#' + id).value = vol;
+var resetTempo = (id) => qs('#' + id).value = -5;
 
-const changeActiveParts = (parts, value) =>
+var changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
         qs('#' + part.slice(0, -1) + "Div").classList.remove("off");
         qs('#' + part.slice(0, -1)).checked = true;
@@ -72,7 +73,7 @@ function choosePage(id) {
     qs('#password').style.display = 'none';
     qs('#bodyDiv').style.display = 'block';
     generateTemplate(id);
-    let newSongID = Object.keys(data[id])[0];
+    var newSongID = Object.keys(data[id])[0];
     changeSong(newSongID, id);
     qs('#' + newSongID).classList.add("keyChoise");
     songID = newSongID;
@@ -123,7 +124,7 @@ function generateSong() {
 }
 
 function rotateArray(arr) {
-  let newArr = [];
+  var newArr = [];
   arr[0].map((note) => newArr.push([]));
   arr.map((part, n) => part.map((note, i) => newArr[i].push(note)));
   return newArr;
@@ -131,12 +132,12 @@ function rotateArray(arr) {
 
 function makeShortMelody(melodyData, tempoData) {
   tempoData = tempoData.map((str) => str.map((t) => t * tempoConst));
-  let volume = Array(melodyData.length).fill(70);
+  var volume = Array(melodyData.length).fill(70);
   return makeMidi(melodyData, tempoData, volume);
 }
 
 function makeMelody(melodyData, tempoData) {
-  let delta = 65 - tone,
+  var delta = 65 - tone,
     melody = [],
     temp = [],
     volume = [],
@@ -153,8 +154,8 @@ function makeMelody(melodyData, tempoData) {
 }
 
 function makeMidi(melody, temp, volume) {
-  let file = new Midi.File();
-  let tracks = [];
+  var file = new Midi.File();
+  var tracks = [];
 
   melody.map((part) => tracks.push(new Midi.Track()));
   melody = rotateArray(melody);
@@ -164,12 +165,12 @@ function makeMidi(melody, temp, volume) {
   melody.map((chord, i) => {
     chord.forEach((note, part) => {
       if (note !== 0 && part < chord.length - 1) {
-        let partsWithSameNote = chord
+        var partsWithSameNote = chord
           .map((n, j) => (note === n ? j : ""))
           .filter(String);
         if (partsWithSameNote.length > 1) {
-          let volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
-          let partWithMaxVolume =
+          var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
+          var partWithMaxVolume =
             partsWithSameNote[
               volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))
             ];
@@ -193,10 +194,10 @@ function downloadSong() {
   song !== "" ? (document.location = song) : alert("Пустой трек");
 }
 
-const openMenu = () => qs('#mobileMenu').classList.toggle("active")
+var openMenu = () => qs('#mobileMenu').classList.toggle("active")
 
 function openPage() {
-  const k = CryptoJS.MD5(qs('#inputPassword').value);
+  var k = CryptoJS.MD5(qs('#inputPassword').value);
   if (k == key1) {
     choosePage('pstgu');
     qs('#password').style.display = 'flex';
