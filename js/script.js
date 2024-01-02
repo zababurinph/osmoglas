@@ -19,12 +19,7 @@ window.addEventListener("load", e => {
   choosePage(activePage);
 })
 
-window.addEventListener("resize", e => {
-    if (document.documentElement.clientWidth > 820) {
-      qs('#mobileMenu').classList.remove("active");
-      qs('.menuLogo').classList.remove('menuLogoOpen');
-    }
-}, true)
+window.addEventListener("resize", e => document.documentElement.clientWidth > 820 ? qs('#mobileMenu').classList.remove("active") : 0, true)
 
 qs('#checkbox_navbar').addEventListener('change', e => {
   qs('body').classList.toggle('add-font')
@@ -42,15 +37,11 @@ const resetTempo = (id) => qs('#' + id).value = -5;
 
 const changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
-        qs('#' + part).classList.remove("off");
+        qs('#' + part.slice(0, -1) + "Div").classList.remove("off");
         qs('#' + part.slice(0, -1)).checked = true;
-        qs('#' + part.slice(0, -1) + "Vol").classList.remove("off");
-        qs('#' + part.slice(0, -1) + "Res").classList.remove("off");
       }) : parts.map((part) => {
-        qs('#' + part).classList.add("off");
+        qs('#' + part.slice(0, -1) + "Div").classList.add("off");
         qs('#' + part.slice(0, -1)).checked = false;
-        qs('#' + part.slice(0, -1) + "Vol").classList.add("off");
-        qs('#' + part.slice(0, -1) + "Res").classList.add("off");
       });
 
 function choosePage(id) {
@@ -58,7 +49,6 @@ function choosePage(id) {
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
   qs('#mobileMenu').classList.remove("active");
-  qs('.menuLogo').classList.remove('menuLogoOpen');
   activePage = id;
 
   if (data.favorite.some(e => e === id)) {
@@ -73,6 +63,7 @@ function choosePage(id) {
   if (id === 'favorite') {
     qs('#bodyDiv').style.display = 'none';
     qs('#password').style.display = 'flex';
+    qa('.favorite').forEach(e => e.classList.add('keyChoise'));
   } else {
     qs('#password').style.display = 'none';
     qs('#bodyDiv').style.display = 'block';
@@ -198,10 +189,7 @@ function downloadSong() {
   song !== "" ? (document.location = song) : alert("Пустой трек");
 }
 
-function openMenu() {
-  qs('#mobileMenu').classList.toggle("active");
-  qs('.menuLogo').classList.toggle('menuLogoOpen')
-}
+const openMenu = () => qs('#mobileMenu').classList.toggle("active")
 
 function openPage() {
   const k = CryptoJS.MD5(qs('#inputPassword').value);

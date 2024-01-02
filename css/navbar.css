@@ -11,17 +11,18 @@
     display: flex;
 }
 
+.header h2 {
+    margin-left: 20px;
+}
+
 .menuLogo {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 60px;
     position: relative;
-    margin: 5px 0 0 20px;
+    margin-left: 20px;
     display: none;
     cursor: pointer;
     transition: all 0.2s;
-}
-
-.menuLogoOpen {
-    transform: rotate(90deg) translate(-5px, 5px);
 }
 
 .menu {

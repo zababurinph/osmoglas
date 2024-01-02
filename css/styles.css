@@ -52,8 +52,6 @@ h3 {
 }
 
 .btn {
-    height: 20px;
-    width: 100px;
     min-width: 100px;
     cursor: pointer;
     border-radius: var(--border-radius);
@@ -70,8 +68,7 @@ h3 {
 }
 
 .btn_mini {
-    width: 10px;
-    padding-inline: 15px;
+    width: 15px;
     min-width: unset;
 }
 
@@ -90,26 +87,12 @@ h3 {
     color: var(--main-color);
 }
 
-.divcheck {
-    width: 150px;
-    /*margin: 0 auto;*/
-}
-
-.parts {
-    display: flex;
-    justify-content: center;
-    /*align-items: stretch;*/
-}
-
-.checkbox {
-    display: none;
-}
-
 .resetTempo {
-    height: 25px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
     padding: 0 5px;
     margin: 15px 5px;
-    font-size: 20px;
+    height: 28px;
     cursor: pointer;
     color: var(--black);
     background-color: var(--second-color);
@@ -121,36 +104,45 @@ h3 {
     color: var(--main-color);
 }
 
-.volumes {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 9px;
+.checkbox {
+    display: none;
 }
 
-.resets {
+.parts {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    padding-top: 8px;
+    align-items: center;
+    overflow-x: hidden;
+    height: 40px;
+    width: 320px;
+    margin: 0 auto;
 }
 
-.resets div {
-    padding: 0 5px;
-    margin: 0 5px;
+.parts .namePart {
+    width: 100px;
+}
+
+.parts .volume {
+    margin: 0 10px;
+}
+
+.parts .reset {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 20px;
+    padding: 0 5px;
+    height: 28px;
     cursor: pointer;
     color: var(--black);
     background-color: var(--second-color);
     border-radius: 5px;
 }
 
-.resets div:hover {
+.parts .reset:hover {
     background-color: var(--third-color);
     color: var(--main-color);
 }
 
-.resets div:active {
+.parts .reset:active {
     opacity: 0.7;
 }
 
@@ -162,7 +154,6 @@ h3 {
     align-items: flex-end;
     cursor: pointer;
     user-select: none;
-    margin: 5px 0;
 }
 
 .checkbox + label:before {

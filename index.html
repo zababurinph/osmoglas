@@ -16,9 +16,9 @@
     <div class="navbar">
         <div class="header">
             <div class="menuLogo" onclick="openMenu()">&equiv;</div>
-            <h1 style="margin-left: 20px">Осмогласие
+            <h2>Осмогласие
                 <sup style="font-size: 13px; font-family: 'Times New Roman', Times, serif; color: var(--third-color)">beta</sup>
-            </h1>
+            </h2>
         </div>
         <div class="menu">
             <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
@@ -49,7 +49,7 @@
     <h4 id="wrongPassword">Неверный пароль</h4>
 
     <div id="bodyDiv">
-        <div id="template" class="flex"></div>
+        <div id="template" class="flex" style="line-height: 1.2em"></div>
 
         <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
 
@@ -78,47 +78,53 @@
         </div>
 
         <h3>Выберите партии:</h3>
-        <div class="parts">
-            <div class="divcheck">
-                <input class='checkbox' type="checkbox" id="soprano1" />
-                <label for="soprano1" class="off" id="soprano1L">Сопрано 1</label>
-                <input class='checkbox' type="checkbox" id="soprano2" />
-                <label for="soprano2" class="off" id="soprano2L">Сопрано 2</label>
-                <input class='checkbox' type="checkbox" id="alt" />
-                <label for="alt" class="off" id="altL">Альт</label>
-                <input class='checkbox' type="checkbox" id="tenor1" />
-                <label for="tenor1" class="off" id="tenor1L">Тенор 1</label>
-                <input class='checkbox' type="checkbox" id="tenor2" />
-                <label for="tenor2" class="off" id="tenor2L">Тенор 2</label>
-                <input class='checkbox' type="checkbox" id="bariton" />
-                <label for="bariton" class="off" id="baritonL">Баритон</label>
-                <input class='checkbox' type="checkbox" id="bas" />
-                <label for="bas" class="off" id="basL">Бас</label>
-            </div>
-            <div class="volumes">
-                <input type="range" class="off" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="altVol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="baritonVol" min="0" value="70" max="127" step="1"/>
-                <input type="range" class="off" id="basVol" min="0" value="70" max="127" step="1"/>
-            </div>
-            <div class="resets">
-                <div class="off" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
-                <div class="off" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
-                <div class="off" onclick="resetVolume('altVol')" id="altRes">↻</div>
-                <div class="off" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
-                <div class="off" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
-                <div class="off" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
-                <div class="off" onclick="resetVolume('basVol')" id="basRes">↻</div>
-            </div>
+        <div class="parts off" id="soprano1Div">
+            <input class='checkbox' type="checkbox" id="soprano1" /><label for="soprano1"></label>
+            <div class="namePart">Сопрано 1</div>
+            <input type="range" class="volume" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
+        </div>
+        <div class="parts off" id="soprano2Div">
+            <input class='checkbox' type="checkbox" id="soprano2" /><label for="soprano2"></label>
+            <div class="namePart">Сопрано 2</div>
+            <input type="range" class="volume" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
+        </div>
+        <div class="parts off" id="altDiv">
+            <input class='checkbox' type="checkbox" id="alt" /><label for="alt"></label>
+            <div class="namePart">Альт</div>
+            <input type="range" class="volume" id="altVol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('altVol')" id="altRes">↻</div>
+        </div>
+        <div class="parts off" id="tenor1Div">
+            <input class='checkbox' type="checkbox" id="tenor1" /><label for="tenor1"></label>
+            <div class="namePart">Тенор 1</div>
+            <input type="range" class="volume" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
+        </div>
+        <div class="parts off" id="tenor2Div">
+            <input class='checkbox' type="checkbox" id="tenor2" /><label for="tenor2"></label>
+            <div class="namePart">Тенор 2</div>
+            <input type="range" class="volume" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
+        </div>
+        <div class="parts off" id="baritonDiv">
+            <input class='checkbox' type="checkbox" id="bariton" /><label for="bariton"></label>
+            <div class="namePart">Баритон</div>
+            <input type="range" class="volume" id="baritonVol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
+        </div>
+        <div class="parts off" id="basDiv">
+            <input class='checkbox' type="checkbox" id="bas" /><label for="bas"></label>
+            <div class="namePart">Бас</div>
+            <input type="range" class="volume" id="basVol" min="0" value="70" max="127" step="1"/>
+            <div class="reset" onclick="resetVolume('basVol')" id="basRes">↻</div>
         </div>
 
         <br><br>
-        <div class="btn" style="margin: 0 auto" onclick="generateSong()">Генерировать</div>
+        <div class="btn btn_big" style="margin: 0 auto" onclick="generateSong()">Генерировать</div>
         <br>
-        <h3 id="textMelody">404</h3>
+        <h3 id="textMelody" style="line-height: 1.2em">404</h3>
         <br>
         <div class="off" id="songDiv">
             <h3 id="trackName">Track</h3>
