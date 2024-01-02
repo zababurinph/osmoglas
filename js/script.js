@@ -13,21 +13,25 @@ let song = "",
     activePage = 'tropar',
     pageName = '';
 
-window.addEventListener("load", e => {
+window.addEventListener("load", function(e){
   // alert(CryptoJS.MD5(''))
   qs('#' + toneKey).classList.add("keyChoise");
   choosePage(activePage);
 })
 
-window.addEventListener("resize", e => document.documentElement.clientWidth > 820 ? qs('#mobileMenu').classList.remove("active") : 0, true)
+window.addEventListener("resize", e => {
+  if (document.documentElement.clientWidth > 820) qs('#mobileMenu').classList.remove("active");
+}, true)
 
-qs('#checkbox_navbar').addEventListener('change', e => {
+qs('#checkbox_navbar').addEventListener('change', function(e){
   qs('body').classList.toggle('add-font')
 })
 
 function generateTemplate(id) {
   let inner = '<h3>Выберите мелодию:</h3><div class="flex">';
-  Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>')
+  Object.keys(data[id]).map(function(i){
+    inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>'
+  })
   inner += '</div><h3 id="textMelodyShort"></h3>';
   qs('#template').innerHTML = inner;
 }
