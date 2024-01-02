@@ -13,18 +13,22 @@ let song = "",
     activePage = 'tropar',
     pageName = '';
 
-window.addEventListener("load", (e) => {
+window.addEventListener("load", e => {
   // alert(CryptoJS.MD5(''))
   qs('#' + toneKey).classList.add("keyChoise");
   choosePage(activePage);
 })
 
-window.addEventListener("resize", (e) => {
+window.addEventListener("resize", e => {
     if (document.documentElement.clientWidth > 820) {
       qs('#mobileMenu').classList.remove("active");
       qs('.menuLogo').classList.remove('menuLogoOpen');
     }
 }, true)
+
+qs('#checkbox_navbar').addEventListener('change', e => {
+  qs('body').classList.toggle('add-font')
+})
 
 function generateTemplate(id) {
   let inner = '<h3>Выберите мелодию:</h3><div class="flex">';

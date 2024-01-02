@@ -5,6 +5,9 @@ html, body {
     position: relative;
     background-color: var(--main-color);
     color: var(--black);
+}
+
+.add-font {
     font-family: CyrillicOld;
 }
 
