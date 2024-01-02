@@ -20,7 +20,7 @@ window.addEventListener("load", (e) => {
 })
 
 window.addEventListener("resize", (e) => {
-    if (document.documentElement.clientWidth > 700) {
+    if (document.documentElement.clientWidth > 820) {
       qs('#mobileMenu').classList.remove("active");
       qs('.menuLogo').classList.remove('menuLogoOpen');
     }
