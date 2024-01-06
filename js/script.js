@@ -11,7 +11,7 @@ var song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'irmos',
+    activePage = 'tropar',
     pageName = '';
 
 window.addEventListener("load", function(e){
