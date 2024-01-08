@@ -1,6 +1,6 @@
 var data = {
     favorite: [
-        'fermata', 'pstgu'
+        'fermata', 'pstgu',
     ],
     fermata: {
         moonriver: [
