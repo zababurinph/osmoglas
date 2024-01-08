@@ -15,7 +15,7 @@ var song = "",
     pageName = '';
 
 window.addEventListener("load", function(e){
-  // alert(CryptoJS.MD5(''))
+  // alert(CryptoJS.MD5('fermata' + 'ztd'))
   qs('#' + toneKey).classList.add("keyChoise");
   choosePage(activePage);
 })
@@ -197,7 +197,7 @@ function downloadSong() {
 var openMenu = () => qs('#mobileMenu').classList.toggle("active")
 
 function openPage() {
-  var k = CryptoJS.MD5(qs('#inputPassword').value);
+  var k = CryptoJS.MD5(qs('#inputPassword').value + key);
   if (k == key1) {
     choosePage('pstgu');
     qs('#password').style.display = 'flex';
