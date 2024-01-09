@@ -1,3 +1,5 @@
+//@formatter:off
+
 'use strict';
 var tempoConst = 60,
       parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
@@ -11,30 +13,42 @@ var song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
-    activePage = 'tropar',
+    activePage = 'glases',
+    activeChapter = '',
     pageName = '';
 
-window.addEventListener("load", function(e){
+window.addEventListener("load", e => {
   // alert(CryptoJS.MD5('fermata' + 'ztd'))
   qs('#' + toneKey).classList.add("keyChoise");
+  activeChapter = Object.keys(data[activePage])[0]
   choosePage(activePage);
 })
 
-window.addEventListener("resize", function (e) {
+window.addEventListener("resize", e => {
   if (document.documentElement.clientWidth > 820) qs('#mobileMenu').classList.remove("active");
 }, true)
 
-qs('#checkbox_navbar').addEventListener('change', function(e) {
+qs('#checkbox_navbar').addEventListener('change', e => {
   qs('body').classList.toggle('add-font')
 })
 
-function generateTemplate(id) {
-  var inner = '<h3>Выберите мелодию:</h3><div class="flex">';
-  Object.keys(data[id]).map(function(i){
-    inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[id][i][7] + '</div>'
-  })
+function generateTemplatePage(id) {
+  var inner = '<h3>Выберите раздел:</h3><div class="flex">';
+
+  Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseChapter(`' + i + '`)" id="' + i + '">' + data[id][i].name + '</div>')
+  inner += '</div><h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
+  inner += generateTemplateChapter(Object.keys(data[id])[0]);
   inner += '</div><h3 id="textMelodyShort"></h3>';
+
   qs('#template').innerHTML = inner;
+}
+
+function generateTemplateChapter(id) {
+  var inner = '';
+  Object.keys(data[activePage][id]).map(i => {
+    if (i !== 'name') inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[activePage][id][i][7] + '</div>';
+  });
+  return inner;
 }
 
 var resetVolume = (id) => qs('#' + id).value = vol;
@@ -50,51 +64,63 @@ var changeActiveParts = (parts, value) =>
       });
 
 function choosePage(id) {
+  resetMidiPlayer();
+  qs('#template').innerHTML = '';
   qs('#wrongPassword').style.display = 'none';
+  qs('#mobileMenu').classList.remove("active");
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
-  qs('#mobileMenu').classList.remove("active");
+
   activePage = id;
 
-  if (data.favorite.some(e => e === id)) {
-    pageName = 'Избранное';
-    qa('.favorite').forEach(e => e.classList.add('keyChoise'));
-  }
-  else {
-    pageName = qs('.' + id).textContent;
-    qa('.favorite').forEach(e => e.classList.remove('keyChoise'));
-  }
-
   if (id === 'favorite') {
+    pageName = 'Избранное';
     qs('#bodyDiv').style.display = 'none';
     qs('#password').style.display = 'flex';
     qa('.favorite').forEach(e => e.classList.add('keyChoise'));
   } else {
     qs('#password').style.display = 'none';
     qs('#bodyDiv').style.display = 'block';
-    generateTemplate(id);
-    var newSongID = Object.keys(data[id])[0];
-    changeSong(newSongID, id);
-    qs('#' + newSongID).classList.add("keyChoise");
-    songID = newSongID;
+    generateTemplatePage(id);
+    activeChapter = Object.keys(data[id])[0];
+    pageName = qs('#' + activeChapter).textContent;
+    chooseChapter(activeChapter);
+    qs('#' + songID).classList.add("keyChoise");
   }
 }
 
-function chooseSong(id) {
-  console.log(songID)
-  qs('#' + songID).classList.remove("keyChoise");
+function chooseChapter(id) {
+  console.log(id);
+  resetMidiPlayer();
+  qs('#' + activeChapter).classList.remove("keyChoise");
   qs('#' + id).classList.add("keyChoise");
-  changeSong(id, activePage);
-  songID = id;
+
+  qs('#templateMelody').innerHTML = generateTemplateChapter(id);
+
+  pageName = qs('#' + id).textContent;
+  activeChapter = id;
+  var newSongID = Object.keys(data[activePage][id])[1];
+
+  qs('#' + newSongID).classList.add("keyChoise");
+  changeSong(newSongID, id, activePage);
 }
 
-function changeSong(melodyID, pageID) {
-  qs('#textMelody').innerHTML = data[pageID][melodyID][6];
-  qs('#textMelodyShort').innerHTML = data[pageID][melodyID][5];
+function chooseSong(id) {
+  console.log(id);
+  resetMidiPlayer();
+  qs('#' + songID).classList.remove("keyChoise");
+  qs('#' + id).classList.add("keyChoise");
+  changeSong(id, activeChapter, activePage);
+}
+
+function changeSong(melodyID, chapterID, pageID) {
+  qs('#textMelody').innerHTML = data[pageID][chapterID][melodyID][6];
+  qs('#textMelodyShort').innerHTML = data[pageID][chapterID][melodyID][5];
   changeActiveParts(parts, false);
-  changeActiveParts(data[pageID][melodyID][0], true);
-  song = makeShortMelody(data[pageID][melodyID][1], data[pageID][melodyID][2]);
+  changeActiveParts(data[pageID][chapterID][melodyID][0], true);
+  song = makeShortMelody(data[pageID][chapterID][melodyID][1], data[pageID][chapterID][melodyID][2]);
   qs('#player_short').src = song;
+  songID = melodyID;
 }
 
 function chooseTone(value, id) {
@@ -115,7 +141,7 @@ function generateSong() {
     console.log(golosa);
     console.log(velocity);
 
-    song = makeMelody(data[activePage][songID][3], data[activePage][songID][4])
+    song = makeMelody(data[activePage][activeChapter][songID][3], data[activePage][activeChapter][songID][4])
 
     qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 11);
     qs('#songDiv').classList.remove("off");
@@ -165,9 +191,7 @@ function makeMidi(melody, temp, volume) {
   melody.map((chord, i) => {
     chord.forEach((note, part) => {
       if (note !== 0 && part < chord.length - 1) {
-        var partsWithSameNote = chord
-          .map((n, j) => (note === n ? j : ""))
-          .filter(String);
+        var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
         if (partsWithSameNote.length > 1) {
           var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
           var partWithMaxVolume =
@@ -190,24 +214,42 @@ function makeMidi(melody, temp, volume) {
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
-function downloadSong() {
-  song !== "" ? (document.location = song) : alert("Пустой трек");
-}
-
 var openMenu = () => qs('#mobileMenu').classList.toggle("active")
+
+function generateTemplateFavorite(id) {
+  qs('#password').style.display = 'flex';
+  qs('#wrongPassword').style.display = 'none';
+
+  activeChapter = id;
+
+  var inner = '';
+  inner += '<h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
+  inner += generateTemplateChapter(id);
+  inner += '</div><h3 id="textMelodyShort"></h3>';
+  qs('#template').innerHTML = inner;
+
+  var newSongID = Object.keys(data[activePage][id])[0];
+
+  qs('#' + newSongID).classList.add("keyChoise");
+  changeSong(newSongID, activeChapter, activePage);
+  qs('#bodyDiv').style.display = 'block';
+}
 
 function openPage() {
   var k = CryptoJS.MD5(qs('#inputPassword').value + key);
-  if (k == key1) {
-    choosePage('pstgu');
-    qs('#password').style.display = 'flex';
-    qs('#wrongPassword').style.display = 'none';
-  } else if (k == key2) {
-    choosePage('fermata');
-    qs('#password').style.display = 'flex';
-    qs('#wrongPassword').style.display = 'none';
-  } else {
+
+  if (k == key1) generateTemplateFavorite('pstgu');
+  else if (k == key2) generateTemplateFavorite('fermata');
+  else {
     qs('#bodyDiv').style.display = 'none';
+    qs('#template').innerHTML = '';
     qs('#wrongPassword').style.display = 'block';
   }
+}
+
+function resetMidiPlayer() {
+  qs('#trackName').innerHTML = 'Track';
+  qs('#player').src = '';
+  qs('#player_short').src = '';
+  qs('#songDiv').classList.add('off');
 }

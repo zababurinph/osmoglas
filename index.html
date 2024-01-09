@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="content-language" content="ru" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords" content="осмогласие, тропарь, кондак, ирмос, стихира, церковное, пение, хор, нота, глас, сопрано, альт, тенор, бас, баритон" />
-    <meta name="description" content="Церковные песнопения по партиям" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="ru">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="осмогласие, тропарь, кондак, ирмос, стихира, церковное, пение, хор, нота, глас, сопрано, альт, тенор, бас, баритон">
+    <meta name="description" content="Церковные песнопения аудио по партиям">
     <title>Осмоглас</title>
-    <link rel="icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" href="./favicon/icon180.png" />
-    <link rel="stylesheet" href="./css/variables.css" />
-    <link rel="stylesheet" href="./css/footer.css" />
-    <link rel="stylesheet" href="./css/navbar.css" />
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/player.css" />
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="./favicon/icon180.png">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/player.css">
 </head>
 <body>
     <div class="navbar">
         <div class="header">
             <div class="menuLogo" onclick="openMenu()">&equiv;</div>
-            <h2>Осмогласие
+            <h2>Осмоглас
                 <sup style="font-size: 13px; font-family: 'Times New Roman', Times, serif; color: var(--third-color)">beta</sup>
             </h2>
         </div>
         <div class="menu">
-            <div class="btnMenu tropar" onclick="choosePage('tropar')">Тропари</div>
-            <div class="btnMenu kondak" onclick="choosePage('kondak')">Кондаки</div>
-            <div class="btnMenu stihira" onclick="choosePage('stihira')">Стихиры</div>
-            <div class="btnMenu irmos" onclick="choosePage('irmos')">Ирмосы</div>
+            <div class="btnMenu glases" onclick="choosePage('glases')">Гласы</div>
             <div class="btnMenu favorite" onclick="choosePage('favorite')">Избранное</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
@@ -36,11 +33,8 @@
         </div>
     </div>
     <div class="mobileMenu" id="mobileMenu">
-        <div class="btnMenuMobile tropar" onclick="choosePage('tropar')">Тропари</div>
-        <div class="btnMenuMobile kondak" onclick="choosePage('kondak')">Кондаки</div>
-        <div class="btnMenuMobile stihira" onclick="choosePage('stihira')">Стихиры</div>
-        <div class="btnMenuMobile irmos" onclick="choosePage('irmos')">Ирмосы</div>
-        <div class="btnMenuMobile favorite" onclick="choosePage('favorite')">Избранное</div>
+        <div class="btnMenuMobile glases" onclick="choosePage('glases')">Гласы</div>
+       <div class="btnMenuMobile favorite" onclick="choosePage('favorite')">Избранное</div>
     </div>
 
     <br>
@@ -84,43 +78,43 @@
         <div class="parts off" id="soprano1Div">
             <input class='checkbox' type="checkbox" id="soprano1" /><label for="soprano1"></label>
             <div class="namePart">Сопрано 1</div>
-            <input type="range" class="volume" id="soprano1Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="soprano1Vol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
         </div>
         <div class="parts off" id="soprano2Div">
             <input class='checkbox' type="checkbox" id="soprano2" /><label for="soprano2"></label>
             <div class="namePart">Сопрано 2</div>
-            <input type="range" class="volume" id="soprano2Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="soprano2Vol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
         </div>
         <div class="parts off" id="altDiv">
             <input class='checkbox' type="checkbox" id="alt" /><label for="alt"></label>
             <div class="namePart">Альт</div>
-            <input type="range" class="volume" id="altVol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="altVol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('altVol')" id="altRes">↻</div>
         </div>
         <div class="parts off" id="tenor1Div">
             <input class='checkbox' type="checkbox" id="tenor1" /><label for="tenor1"></label>
             <div class="namePart">Тенор 1</div>
-            <input type="range" class="volume" id="tenor1Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="tenor1Vol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
         </div>
         <div class="parts off" id="tenor2Div">
             <input class='checkbox' type="checkbox" id="tenor2" /><label for="tenor2"></label>
             <div class="namePart">Тенор 2</div>
-            <input type="range" class="volume" id="tenor2Vol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="tenor2Vol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
         </div>
         <div class="parts off" id="baritonDiv">
             <input class='checkbox' type="checkbox" id="bariton" /><label for="bariton"></label>
             <div class="namePart">Баритон</div>
-            <input type="range" class="volume" id="baritonVol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="baritonVol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
         </div>
         <div class="parts off" id="basDiv">
             <input class='checkbox' type="checkbox" id="bas" /><label for="bas"></label>
             <div class="namePart">Бас</div>
-            <input type="range" class="volume" id="basVol" min="0" value="70" max="127" step="1"/>
+            <input type="range" class="volume" id="basVol" min="1" value="70" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('basVol')" id="basRes">↻</div>
         </div>
 
@@ -133,11 +127,11 @@
             <h3 id="trackName">Track</h3>
             <div id="btnPlay">
                 <midi-player sound-font id="player" visualizer="#playerV"></midi-player>
-                <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>
             </div>
         </div>
     </div>
 
+    <br>
     <div class="footer">
         2022 (c) Тима Забабурин<br>
         Для корректной работы сайта рекомендуется использовать браузер Google Chrome<br>
