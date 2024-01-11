@@ -44,10 +44,6 @@
     color: var(--main-color);
 }
 
-.mobileMenu {
-    display: none;
-}
-
 .btnMenuMobile {
     cursor: pointer;
     background-color: var(--second-color);
@@ -60,10 +56,6 @@
 .btnMenuMobile:hover {
     background: var(--third-color);
     color: var(--main-color);
-}
-
-.active {
-    display: block;
 }
 
 .checkbox_navbar {

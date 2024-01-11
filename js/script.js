@@ -26,7 +26,7 @@ window.addEventListener("load", e => {
 
 window.addEventListener("resize", e => {
   if (document.documentElement.clientWidth > 820) {
-    qs('#mobileMenu').classList.remove("active");
+    qs('#mobileMenu').classList.add('notActive');
     qs('.separator').classList.remove('notActive');
   }
 }, true)
@@ -69,9 +69,7 @@ var changeActiveParts = (parts, value) =>
 function choosePage(id) {
   resetMidiPlayer();
   qs('#template').innerHTML = '';
-  qs('#wrongPassword').style.display = 'none';
-  qs('#instruction').classList.add('notActive');
-  qs('#mobileMenu').classList.remove("active");
+  ['.wrongPassword', '.password', '#bodyDiv', '#instruction', '#donut', '#mobileMenu'].forEach(e => qs(e).classList.add('notActive'));
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
 
@@ -79,16 +77,12 @@ function choosePage(id) {
 
   if (id === 'favorite') {
     pageName = 'Избранное';
-    qs('#bodyDiv').style.display = 'none';
-    qs('#password').style.display = 'flex';
+    qs('.password').classList.remove('notActive');
     qa('.favorite').forEach(e => e.classList.add('keyChoise'));
-  } else if (id === 'instruction') {
-    qs('#bodyDiv').style.display = 'none';
-    qs('#password').style.display = 'none';
-    qs('#instruction').classList.remove('notActive');
+  } else if (['instruction', 'donut'].some(e => e === id)) {
+    qs('#' + id).classList.remove('notActive');
   } else {
-    qs('#password').style.display = 'none';
-    qs('#bodyDiv').style.display = 'block';
+    qs('#bodyDiv').classList.remove('notActive');
     generateTemplatePage(id);
     activeChapter = Object.keys(data[id])[0];
     pageName = qs('#' + activeChapter).textContent;
@@ -222,11 +216,11 @@ function makeMidi(melody, temp, volume) {
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
-var openMenu = () => qs('#mobileMenu').classList.toggle("active")
+var openMenu = () => qs('#mobileMenu').classList.toggle('notActive')
 
 function generateTemplateFavorite(id) {
-  qs('#password').style.display = 'flex';
-  qs('#wrongPassword').style.display = 'none';
+  qs('.wrongPassword').classList.add('notActive');
+  // qs('#password').style.display = 'flex';
 
   activeChapter = id;
 
@@ -240,7 +234,7 @@ function generateTemplateFavorite(id) {
 
   qs('#' + newSongID).classList.add("keyChoise");
   changeSong(newSongID, activeChapter, activePage);
-  qs('#bodyDiv').style.display = 'block';
+  qs('#bodyDiv').classList.remove('notActive');
 }
 
 function openPage() {
@@ -250,9 +244,9 @@ function openPage() {
   if (k == key1) generateTemplateFavorite('pstgu');
   else if (k == key2) generateTemplateFavorite('fermata');
   else {
-    qs('#bodyDiv').style.display = 'none';
+    qs('#bodyDiv').classList.add('notActive');
     qs('#template').innerHTML = '';
-    qs('#wrongPassword').style.display = 'block';
+    qs('.wrongPassword').classList.remove('notActive');
   }
 }
 

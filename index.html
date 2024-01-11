@@ -29,7 +29,7 @@
             <div class="btnMenu favorite" onclick="choosePage('favorite')">Избранное</div>
             <div class="separator"></div>
             <div class="btnMenu instruction" onclick="choosePage('instruction')">Инструкция</div>
-            <div class="btnMenu donut off" onclick="choosePage('donut')">Поддержать</div>
+            <div class="btnMenu donut" onclick="choosePage('donut')">Поддержать</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -41,16 +41,18 @@
         <div class="btnMenuMobile liturg off" onclick="choosePage('liturg')">Литургия</div>
         <div class="btnMenuMobile favorite" onclick="choosePage('favorite')">Избранное</div>
         <div class="btnMenuMobile instruction" onclick="choosePage('instruction')">Инструкция</div>
-        <div class="btnMenuMobile donut off" onclick="choosePage('donut')">Поддержать</div>
+        <div class="btnMenuMobile donut" onclick="choosePage('donut')">Поддержать</div>
     </div>
 
     <br>
-    <div id="password">
+    <!------------------------------------------------------------------------------------------------------>
+    <div id="password" class="password notActive">
         <h3>Введите пароль:</h3>
         <input type="text" id="inputPassword"/>
         <div class="btn" onclick="openPage()">Открыть</div>
     </div>
-    <h4 id="wrongPassword">Неверный пароль</h4>
+    <h4 id="wrongPassword" class="wrongPassword notActive">Неверный пароль</h4>
+    <!------------------------------------------------------------------------------------------------------>
 
     <div id="bodyDiv">
         <div id="template" class="flex" style="line-height: 1.2em"></div>
@@ -138,7 +140,7 @@
         </div>
     </div>
 <!------------------------------------------------------------------------------------------------------>
-    <div id="instruction" class="notActive">
+    <div id="instruction" class="second-page notActive">
         <h3>Как пользоваться</h3>
         <p>
             Сначала по нажатию кнопок выбирается песнопение: раздел меню, затем раздел на странице и мелодия. Далее
@@ -147,7 +149,7 @@
         </p>
         <p>
             Далее, если необходимо, выбираете транспонирование, темп и необходимые партии. Обратите внимание, что
-            транспонирование в полутонах, то есть, чтобы повысить тональность произведение на тон, надо выбрать кнопку
+            транспонирование в полутонах, то есть, чтобы повысить тональность произведения на тон, надо выбрать кнопку
             "+2", так как в одном тоне 2 полутона. Выключатель слева от названий партий в положении слева исключает
             голос из общей мелодии. Соответственно, если Вам нужно прослушать какую-то одну определенную партию,
             необходимо выключить все остальные. Справа от названия партий можно настроить их громкость в общей мелодии.
@@ -165,6 +167,22 @@
         <p>
             Все возникшие вопросы вы можете задать лично разработчику по ссылке внизу сайта. А также написать свои
             предложения :)
+        </p>
+    </div>
+<!------------------------------------------------------------------------------------------------------>
+    <div id="donut" class="second-page notActive">
+        <h3>Вы можете поддержать проект</h3>
+        <p>
+            Так как сайт абсолютно бесплатный, то создатели тратят свое личное время на его пополнение и поддержку.
+            Мы будем очень признательны, если вы поддержите наш проект, чтобы мы смогли посвящать ему больше времени :)
+        </p>
+        <p>
+            Вы можете поддержать разработчиков, сделав любой перевод по номеру карты: <b>2202 2050 3869 8764</b>,
+            или отсканировав qr-код ниже:
+        </p>
+        <img src="./img/qr-sber.png">
+        <p style="text-align: center">
+            <b>Благодарим за любую поддержку!</b>
         </p>
     </div>
 <!------------------------------------------------------------------------------------------------------>

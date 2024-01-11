@@ -11,7 +11,7 @@ html, body {
     font-family: CyrillicOld;
 }
 
-#password {
+.password {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,13 +21,12 @@ html, body {
     margin: 0 auto;
 }
 
-#password input {
+.password input {
     height: 20px;
     margin-right: 20px;
 }
 
-#wrongPassword {
-    display: none;
+.wrongPassword {
     margin-top: 0;
     color: var(--third-color);
 }
@@ -186,15 +185,20 @@ h3 {
     opacity: 1;
 }
 
-#instruction {
+.second-page {
     width: 95vw;
     margin: 0 auto;
 }
 
-#instruction p {
+.second-page p {
     text-align: left;
     font-size: 1.1em;
     text-indent: 20px;
+}
+
+.second-page img {
+    max-width: 200px;
+    margin: 20px;
 }
 
 .notActive {
