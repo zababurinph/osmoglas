@@ -26,6 +26,7 @@ window.addEventListener("load", e => {
 
 window.addEventListener("resize", e => {
   if (document.documentElement.clientWidth > 820) qs('#mobileMenu').classList.remove("active");
+  qs('.separator').classList.toggle('notActive');
 }, true)
 
 qs('#checkbox_navbar').addEventListener('change', e => {

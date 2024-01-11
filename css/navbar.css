@@ -57,7 +57,7 @@
     line-height: 40px;
 }
 
-.btnMobileMenu:hover {
+.btnMenuMobile:hover {
     background: var(--third-color);
     color: var(--main-color);
 }
@@ -113,6 +113,15 @@
     width: 300px;
 }
 
+.notActive {
+    display: none;
+}
+
+.separator {
+    height: 30px;
+    border: 1px solid var(--third-color);
+}
+
 @media (max-width: 820px) {
     .menuLogo {
         display: block;
@@ -124,5 +133,9 @@
 
     #tempo {
         width: 200px;
+    }
+
+    .separator {
+        display: none;
     }
 }

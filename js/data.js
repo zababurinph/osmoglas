@@ -1279,6 +1279,14 @@ var data = {
                 'Глас 8'
             ]
         }
+    },
+    liturg: {
+        heruvim: {
+            name: 'Херувисмкая',
+            obihod: [
+
+            ]
+        }
     }
 },
     key = 'ztd',
