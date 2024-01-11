@@ -25,8 +25,10 @@ window.addEventListener("load", e => {
 })
 
 window.addEventListener("resize", e => {
-  if (document.documentElement.clientWidth > 820) qs('#mobileMenu').classList.remove("active");
-  qs('.separator').classList.toggle('notActive');
+  if (document.documentElement.clientWidth > 820) {
+    qs('#mobileMenu').classList.remove("active");
+    qs('.separator').classList.remove('notActive');
+  }
 }, true)
 
 qs('#checkbox_navbar').addEventListener('change', e => {
@@ -68,6 +70,7 @@ function choosePage(id) {
   resetMidiPlayer();
   qs('#template').innerHTML = '';
   qs('#wrongPassword').style.display = 'none';
+  qs('#instruction').classList.add('notActive');
   qs('#mobileMenu').classList.remove("active");
   qa('.' + activePage).forEach(e => e.classList.remove('keyChoise'));
   qa('.' + id).forEach(e => e.classList.add('keyChoise'));
@@ -79,6 +82,10 @@ function choosePage(id) {
     qs('#bodyDiv').style.display = 'none';
     qs('#password').style.display = 'flex';
     qa('.favorite').forEach(e => e.classList.add('keyChoise'));
+  } else if (id === 'instruction') {
+    qs('#bodyDiv').style.display = 'none';
+    qs('#password').style.display = 'none';
+    qs('#instruction').classList.remove('notActive');
   } else {
     qs('#password').style.display = 'none';
     qs('#bodyDiv').style.display = 'block';

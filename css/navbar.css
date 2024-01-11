@@ -113,10 +113,6 @@
     width: 300px;
 }
 
-.notActive {
-    display: none;
-}
-
 .separator {
     height: 30px;
     border: 1px solid var(--third-color);

@@ -185,3 +185,18 @@ h3 {
     transform: translateX(30px);
     opacity: 1;
 }
+
+#instruction {
+    width: 95vw;
+    margin: 0 auto;
+}
+
+#instruction p {
+    text-align: left;
+    font-size: 1.1em;
+    text-indent: 20px;
+}
+
+.notActive {
+    display: none;
+}
