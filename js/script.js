@@ -18,7 +18,7 @@ var song = "",
     pageName = '';
 
 window.addEventListener("load", e => {
-  // alert(CryptoJS.MD5('fermata' + 'ztd'))
+  // alert(CryptoJS.MD5('fermata' + key))
   qs('#' + toneKey).classList.add("keyChoise");
   activeChapter = Object.keys(data[activePage])[0]
   choosePage(activePage);
@@ -236,6 +236,7 @@ function generateTemplateFavorite(id) {
 }
 
 function openPage() {
+  resetMidiPlayer();
   var k = CryptoJS.MD5(qs('#inputPassword').value + key);
 
   if (k == key1) generateTemplateFavorite('pstgu');
