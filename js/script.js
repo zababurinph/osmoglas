@@ -2,10 +2,11 @@
 
 'use strict';
 var tempoConst = 60,
-      parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
-      vol = 70,
-      qs = (sel) => document.querySelector(sel),
-      qa = (sel) => document.querySelectorAll(sel);
+    parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
+    vol = 70,
+    tempoReset = -8,
+    qs = (sel) => document.querySelector(sel),
+    qa = (sel) => document.querySelectorAll(sel);
 
 var song = "",
     songID = "",
@@ -55,7 +56,7 @@ function generateTemplateChapter(id) {
 }
 
 var resetVolume = (id) => qs('#' + id).value = vol;
-var resetTempo = (id) => qs('#' + id).value = -5;
+var resetTempo = (id) => qs('#' + id).value = tempoReset;
 
 var changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
@@ -145,7 +146,7 @@ function generateSong() {
 
     song = makeMelody(data[activePage][activeChapter][songID][3], data[activePage][activeChapter][songID][4])
 
-    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 11);
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 16);
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
   }
