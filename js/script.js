@@ -1,7 +1,7 @@
 //@formatter:off
 
 'use strict';
-var tempoConst = 60,
+var tempoConst = 70,
     parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
     vol = 70,
     tempoReset = -8,

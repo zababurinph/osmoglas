@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="mobileMenu" id="mobileMenu">
+    <div class="mobileMenu notActive" id="mobileMenu">
         <div class="btnMenuMobile glases" onclick="choosePage('glases')">Гласы</div>
         <div class="btnMenuMobile liturg" onclick="choosePage('liturg')">Литургия</div>
         <div class="btnMenuMobile favorite" onclick="choosePage('favorite')">Избранное</div>
@@ -54,10 +54,10 @@
     <h4 id="wrongPassword" class="wrongPassword notActive">Неверный пароль</h4>
     <!------------------------------------------------------------------------------------------------------>
 
-    <div id="bodyDiv">
+    <div id="bodyDiv" class="notActive">
         <div id="template" class="flex" style="line-height: 1.2em"></div>
 
-        <midi-player sound-font id="player_short" visualizer="#playerV_short"></midi-player>
+        <midi-player sound-font id="player_short" visualizer="#playerShortViz"></midi-player>
 
         <h3>Транспонирование (шаг в полутонах):</h3>
         <div class="flex">
@@ -134,9 +134,9 @@
         <br>
         <div class="off" id="songDiv">
             <h3 id="trackName">Track</h3>
-            <div id="btnPlay">
-                <midi-player sound-font id="player" visualizer="#playerV"></midi-player>
-            </div>
+            <midi-player sound-font id="player" visualizer="#playerViz"></midi-player>
+            <br>
+<!--            <midi-visualizer type="staff" id="playerViz"></midi-visualizer>-->
         </div>
     </div>
 <!------------------------------------------------------------------------------------------------------>
@@ -173,8 +173,9 @@
     <div id="donut" class="second-page notActive">
         <h3>Вы можете поддержать проект</h3>
         <p>
-            Так как сайт абсолютно бесплатный, то создатели тратят свое личное время на его пополнение и поддержку.
-            Мы будем очень признательны, если вы поддержите наш проект, чтобы мы смогли посвящать ему больше времени :)
+            Так как сайт абсолютно бесплатный, то создатели тратят свое личное время и средства на его пополнение и
+            поддержку. Мы будем очень признательны, если вы поддержите наш проект, чтобы мы смогли посвящать ему больше
+            времени :)
         </p>
         <p>
             Вы можете поддержать разработчиков, сделав любой перевод по номеру карты: <b>2202 2050 3869 8764</b>,

@@ -24,3 +24,11 @@ midi-player::part(play-button):hover {
 midi-player::part(time) {
     color: var(--black);
 }
+
+midi-visualizer {
+    width: inherit;
+    margin: 0 auto;
+    height: 200px;
+    padding: 0 30px;
+    max-width: 1000px;
+}

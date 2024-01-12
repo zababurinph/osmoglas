@@ -1282,7 +1282,7 @@ var data = {
     },
     liturg: {
         heruvim: {
-            name: 'Херувисмкие',
+            name: 'Херувимские',
             obihod7: [
                 ['soprano1L', 'altL', 'tenor1L', 'basL'],
                 [//  И́  же Хе    ру  ви́              мы И  же     хе    ру    ви        мы
