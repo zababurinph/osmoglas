@@ -79,7 +79,8 @@
         <br><br>
         <div class="flex">
             <h3>Темп:</h3>
-            <input type="range" id="tempo" min="-15" value="-8" max="-2" step="0.5" />
+<!--            <input type="range" id="tempo" min="-15" value="-8" max="-2" step="0.5" />-->
+            <input type="range" id="tempo" min="120" value="220" max="250" step="1" />
             <div class="resetTempo" onclick="resetTempo('tempo')" id="tempoRes">↻</div>
         </div>
 
@@ -136,7 +137,7 @@
             <h3 id="trackName">Track</h3>
             <midi-player sound-font id="player" visualizer="#playerViz"></midi-player>
             <br>
-<!--            <midi-visualizer type="staff" id="playerViz"></midi-visualizer>-->
+            <midi-visualizer type="staff" id="playerViz"></midi-visualizer>
         </div>
     </div>
 <!------------------------------------------------------------------------------------------------------>

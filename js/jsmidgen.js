@@ -605,7 +605,7 @@ let Midi = {};
 			}
 		}
 
-		this.ticks = c.ticks || 128;
+		this.ticks = c.ticks || 220;
 		this.tracks = c.tracks || [];
 	};
 

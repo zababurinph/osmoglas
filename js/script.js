@@ -149,6 +149,7 @@ function generateSong() {
     qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 16);
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
+    qs('#playerViz').src = song;
   }
 }
 
@@ -170,7 +171,8 @@ function makeMelody(melodyData, tempoData) {
     melody = [],
     temp = [],
     volume = [],
-    tempo = Math.abs(qs('#tempo').value) * tempoConst / 3;
+    // tempo = Math.abs(qs('#tempo').value) * tempoConst / 3;
+    tempo = Number(qs('#tempo').value);
 
   golosa.map((g, i) => {
     if (g) {
@@ -197,23 +199,19 @@ function makeMidi(melody, temp, volume) {
         var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
         if (partsWithSameNote.length > 1) {
           var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
-          var partWithMaxVolume =
-            partsWithSameNote[
-              volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))
-            ];
-          partsWithSameNote.map((index) =>
-            index !== partWithMaxVolume ? (chord[index] = 0) : 0
-          );
+          var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
+          partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
         }
       }
     });
-    chord.map((note, part) =>
-      tracks[part].addNote(0, note, temp[part][i], 0, volume[part])
-    );
+    chord.map((note, part) => tracks[part].addNote(0, note, 220, 0, volume[part]));
   });
   console.log(melody);
 
-  tracks.map((t) => file.addTrack(t));
+  tracks.map(t => {
+    t.setTempo(150, 0);
+    file.addTrack(t);
+  });
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
@@ -221,7 +219,6 @@ var openMenu = () => qs('#mobileMenu').classList.toggle('notActive')
 
 function generateTemplateFavorite(id) {
   qs('.wrongPassword').classList.add('notActive');
-  // qs('#password').style.display = 'flex';
 
   activeChapter = id;
 
