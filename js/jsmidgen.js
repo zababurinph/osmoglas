@@ -535,14 +535,36 @@ let Midi = {};
 	 * Set the tempo for the track.
 	 *
 	 * @param {number} bpm - The new number of beats per minute.
-	 * @param {number} [time=0] - The number of ticks since the previous event,
-	 * defaults to 0.
+	 * @param {number} [time=0] - The number of ticks since the previous event, defaults to 0.
 	 * @returns {Track} The current track.
 	 */
 	Track.prototype.setTempo = Track.prototype.tempo = function(bpm, time) {
 		this.events.push(new MetaEvent({
 			type: MetaEvent.TEMPO,
 			data: Util.mpqnFromBpm(bpm),
+			time: time || 0,
+		}));
+		return this;
+	};
+
+	/**
+	 * Set the time signature for the track.
+	 *
+	 * @param {number} [numerator=4] - number of beats per measure, defaults to 4.
+	 * @param {number} [denominator=4] - duration of the beat, defaults to 4.
+	 * @param {number} [time=0] - The number of ticks since the previous event, defaults to 0.
+	 * @returns {Track} The current track.
+	 */
+
+	Track.prototype.setTimeSignature = Track.prototype.timeSignature = function(numerator, denominator, time) {
+		this.events.push(new MetaEvent({
+			type: MetaEvent.TIME_SIG,
+			data: [
+				numerator,
+				Math.log2(denominator),
+				24,
+				8
+			] || [4, Math.log2(4), 24, 8],
 			time: time || 0,
 		}));
 		return this;
@@ -605,7 +627,7 @@ let Midi = {};
 			}
 		}
 
-		this.ticks = c.ticks || 220;
+		this.ticks = c.ticks || 128;
 		this.tracks = c.tracks || [];
 	};
 

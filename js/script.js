@@ -1,10 +1,8 @@
 //@formatter:off
 
 'use strict';
-var tempoConst = 70,
-    parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
+var parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
     vol = 70,
-    tempoReset = -8,
     qs = (sel) => document.querySelector(sel),
     qa = (sel) => document.querySelectorAll(sel);
 
@@ -14,6 +12,7 @@ var song = "",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
     velocity = [70, 70, 70, 70, 70, 70, 70],
+    tempoSong = 120,
     activePage = 'glases',
     activeChapter = '',
     pageName = '';
@@ -56,7 +55,6 @@ function generateTemplateChapter(id) {
 }
 
 var resetVolume = (id) => qs('#' + id).value = vol;
-var resetTempo = (id) => qs('#' + id).value = tempoReset;
 
 var changeActiveParts = (parts, value) =>
   value ? parts.map((part) => {
@@ -121,9 +119,16 @@ function changeSong(melodyID, chapterID, pageID) {
   qs('#textMelodyShort').innerHTML = data[pageID][chapterID][melodyID][5];
   changeActiveParts(parts, false);
   changeActiveParts(data[pageID][chapterID][melodyID][0], true);
+  tempoSong = data[pageID][chapterID][melodyID][8];
+  changeTempo(tempoSong);
   song = makeShortMelody(data[pageID][chapterID][melodyID][1], data[pageID][chapterID][melodyID][2]);
   qs('#player_short').src = song;
   songID = melodyID;
+}
+
+function changeTempo(tempo) {
+  qs('#tempoRange').value = tempo || tempoSong;
+  qs('#tempoInput').value = tempo || tempoSong;
 }
 
 function chooseTone(value, id) {
@@ -146,51 +151,51 @@ function generateSong() {
 
     song = makeMelody(data[activePage][activeChapter][songID][3], data[activePage][activeChapter][songID][4])
 
-    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + (Number(qs('#tempo').value) + 16);
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + qs('#tempoInput').value;
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
-    qs('#playerViz').src = song;
+    // qs('#playerViz').src = song;
   }
 }
 
 function rotateArray(arr) {
   var newArr = [];
-  arr[0].map((note) => newArr.push([]));
+  arr[0].map(note => newArr.push([]));
   arr.map((part, n) => part.map((note, i) => newArr[i].push(note)));
   return newArr;
 }
 
 function makeShortMelody(melodyData, tempoData) {
-  tempoData = tempoData.map((str) => str.map((t) => t * tempoConst));
   var volume = Array(melodyData.length).fill(70);
-  return makeMidi(melodyData, tempoData, volume);
+  return makeMidi(melodyData, tempoData, tempoSong * 2, volume);
 }
 
 function makeMelody(melodyData, tempoData) {
   var delta = 65 - tone,
-    melody = [],
-    temp = [],
-    volume = [],
-    // tempo = Math.abs(qs('#tempo').value) * tempoConst / 3;
-    tempo = Number(qs('#tempo').value);
+      melody = [],
+      volume = [],
+      temp = [];
 
   golosa.map((g, i) => {
     if (g) {
       melody.push(melodyData[i].map((note) => (note !== 0 ? note - delta : 0)));
-      temp.push(tempoData[i].map((t) => t * tempo));
+      temp.push(tempoData[i]);
       volume.push(Number(velocity[i]));
     }
   });
-  return makeMidi(melody, temp, volume);
+  return makeMidi(melody, temp, qs('#tempoInput').value, volume);
 }
 
-function makeMidi(melody, temp, volume) {
+function makeMidi(melody, tempoData, tempo, volume) {
   var file = new Midi.File();
   var tracks = [];
 
   melody.map((part) => tracks.push(new Midi.Track()));
   melody = rotateArray(melody);
-
+  tracks.map(t => {
+    t.setTempo(tempo, 0);
+    t.setTimeSignature(4, 4, 0);
+  });
   console.log(melody);
 
   melody.map((chord, i) => {
@@ -204,14 +209,13 @@ function makeMidi(melody, temp, volume) {
         }
       }
     });
-    chord.map((note, part) => tracks[part].addNote(0, note, 220, 0, volume[part]));
+
+    chord.map((note, part) => tracks[part].addNote(0, note, tempoData[part][i] * 128, 0, volume[part]));
   });
+
   console.log(melody);
 
-  tracks.map(t => {
-    t.setTempo(150, 0);
-    file.addTrack(t);
-  });
+  tracks.map(t => file.addTrack(t));
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
@@ -253,4 +257,8 @@ function resetMidiPlayer() {
   qs('#player').src = '';
   qs('#player_short').src = '';
   qs('#songDiv').classList.add('off');
+}
+
+function downloadSong() {
+  song !== "" ? (document.location = song) : alert("Пустой трек");
 }

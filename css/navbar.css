@@ -101,7 +101,7 @@
     transform: translateX(30px);
 }
 
-#tempo {
+#tempoRange {
     width: 300px;
 }
 
@@ -119,7 +119,7 @@
         display: none;
     }
 
-    #tempo {
+    #tempoRange {
         width: 200px;
     }
 
