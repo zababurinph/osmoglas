@@ -22,6 +22,7 @@ window.addEventListener("load", e => {
   qs('#' + toneKey).classList.add("keyChoise");
   activeChapter = Object.keys(data[activePage])[0]
   choosePage(activePage);
+  qs('#playerViz').config = {noteHeight: 10, activeNoteRGB: '152, 40, 40, 100'};
 })
 
 window.addEventListener("resize", e => {
@@ -154,7 +155,7 @@ function generateSong() {
     qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + qs('#tempoInput').value;
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
-    // qs('#playerViz').src = song;
+    qs('#playerViz').src = song;
   }
 }
 
@@ -187,8 +188,9 @@ function makeMelody(melodyData, tempoData) {
 }
 
 function makeMidi(melody, tempoData, tempo, volume) {
-  var file = new Midi.File();
-  var tracks = [];
+  var ticks = 4;
+  var file = new Midi.File({ticks: ticks}),
+      tracks = [];
 
   melody.map((part) => tracks.push(new Midi.Track()));
   melody = rotateArray(melody);
@@ -210,7 +212,10 @@ function makeMidi(melody, tempoData, tempo, volume) {
       }
     });
 
-    chord.map((note, part) => tracks[part].addNote(0, note, tempoData[part][i] * 128, 0, volume[part]));
+    chord.map((note, part) => {
+      // if (note !== 0)
+      tracks[part].addNote(0, note, tempoData[part][i] * ticks, 0, volume[part])
+    });
   });
 
   console.log(melody);

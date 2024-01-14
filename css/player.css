@@ -26,9 +26,18 @@ midi-player::part(time) {
 }
 
 midi-visualizer {
+    text-align: left;
     width: inherit;
     margin: 0 auto;
-    height: 200px;
+    /*height: 200px;*/
     padding: 0 30px;
     max-width: 1000px;
+}
+
+midi-visualizer svg rect {
+    fill: var(--main-color);
+}
+
+midi-visualizer svg path {
+    opacity: 1;
 }
