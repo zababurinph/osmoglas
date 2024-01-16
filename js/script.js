@@ -2,7 +2,7 @@
 
 'use strict';
 var parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
-    vol = 70,
+    vol = 90,
     qs = (sel) => document.querySelector(sel),
     qa = (sel) => document.querySelectorAll(sel);
 
@@ -11,7 +11,7 @@ var song = "",
     toneKey = "tone65",
     tone = 65,
     golosa = [true, true, true, true, true, true, true],
-    velocity = [70, 70, 70, 70, 70, 70, 70],
+    velocity = [90, 90, 90, 90, 90, 90, 90],
     tempoSong = 120,
     activePage = 'glases',
     activeChapter = '',
@@ -188,11 +188,11 @@ function makeMelody(melodyData, tempoData) {
 }
 
 function makeMidi(melody, tempoData, tempo, volume) {
-  var ticks = 4;
-  var file = new Midi.File({ticks: ticks}),
+  var ticks = 128;
+  var file = new MidiLocal.File({ticks: ticks}),
       tracks = [];
 
-  melody.map((part) => tracks.push(new Midi.Track()));
+  melody.map((part) => tracks.push(new MidiLocal.Track()));
   melody = rotateArray(melody);
   tracks.map(t => {
     t.setTempo(tempo, 0);
@@ -201,16 +201,16 @@ function makeMidi(melody, tempoData, tempo, volume) {
   console.log(melody);
 
   melody.map((chord, i) => {
-    chord.forEach((note, part) => {
-      if (note !== 0 && part < chord.length - 1) {
-        var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
-        if (partsWithSameNote.length > 1) {
-          var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
-          var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
-          partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
-        }
-      }
-    });
+    // chord.forEach((note, part) => {
+    //   if (note !== 0 && part < chord.length - 1) {
+    //     var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
+    //     if (partsWithSameNote.length > 1) {
+    //       var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
+    //       var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
+    //       partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
+    //     }
+    //   }
+    // });
 
     chord.map((note, part) => {
       // if (note !== 0)
@@ -221,6 +221,7 @@ function makeMidi(melody, tempoData, tempo, volume) {
   console.log(melody);
 
   tracks.map(t => file.addTrack(t));
+  console.log(file);
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
@@ -266,4 +267,37 @@ function resetMidiPlayer() {
 
 function downloadSong() {
   song !== "" ? (document.location = song) : alert("Пустой трек");
+}
+
+async function parser() {
+
+  var id1 = 'liturg';
+  var inner = '<h3>Выберите раздел:</h3><div class="flex">';
+
+  Object.keys(data2[id1]).map(i => inner += '<div class="btn" onclick="" id="' + i + '">' + data2[id1][i].name + '</div>')
+  inner += '</div><h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
+  var id2 = Object.keys(data2[id1])[0];
+  Object.keys(data2[id1][id2]).map(i => {
+    if (i !== 'name') inner += '<div class="btn" onclick="" id="' + i + '">' + data2[id1][id2][i].name + '</div>';
+  });
+  inner += '</div><h3 id="textMelodyShort"></h3>';
+  var id3 = Object.keys(data2[id1][id2])[1];
+
+  qs('#template').innerHTML = inner;
+  qs('#textMelodyShort').innerHTML = data2[id1][id2][id3].textShort;
+  qs('#textMelody').innerHTML = data2[id1][id2][id3].text;
+
+  var url = data2[id1][id2][id3].url,
+      len = data2[id1][id2][id3].lengthShort;
+
+  var midi = new Midi();
+  midi = await Midi.fromUrl(url);
+
+  midi.tracks = midi.tracks.map(track => track = track.notes.slice(0, len));
+
+  // !!!! Здесь нужно конвертировать JSON в миди
+
+  // qs('#playerShort').src = "data:audio/midi;base64," + btoa(file.toBytes());
+
+
 }

@@ -1,4 +1,4 @@
-let Midi = {};
+let MidiLocal = {};
 
 (function(exported) {
 
@@ -693,12 +693,12 @@ let Midi = {};
 	exported.Event = MidiEvent;
 	exported.MetaEvent = MetaEvent;
 
-})( Midi );
+})( MidiLocal );
 
 if (typeof module != 'undefined' && module !== null) {
-	module.exports = Midi;
+	module.exports = MidiLocal;
 } else if (typeof exports != 'undefined' && exports !== null) {
-	exports = Midi;
+	exports = MidiLocal;
 } else {
-	this.Midi = Midi;
+	this.MidiLocal = MidiLocal;
 }
