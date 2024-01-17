@@ -201,16 +201,16 @@ function makeMidi(melody, tempoData, tempo, volume) {
   console.log(melody);
 
   melody.map((chord, i) => {
-    // chord.forEach((note, part) => {
-    //   if (note !== 0 && part < chord.length - 1) {
-    //     var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
-    //     if (partsWithSameNote.length > 1) {
-    //       var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
-    //       var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
-    //       partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
-    //     }
-    //   }
-    // });
+    chord.forEach((note, part) => {
+      if (note !== 0 && part < chord.length - 1) {
+        var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
+        if (partsWithSameNote.length > 1) {
+          var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
+          var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
+          partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
+        }
+      }
+    });
 
     chord.map((note, part) => {
       // if (note !== 0)
@@ -221,7 +221,6 @@ function makeMidi(melody, tempoData, tempo, volume) {
   console.log(melody);
 
   tracks.map(t => file.addTrack(t));
-  console.log(file);
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
@@ -293,11 +292,32 @@ async function parser() {
   var midi = new Midi();
   midi = await Midi.fromUrl(url);
 
-  midi.tracks = midi.tracks.map(track => track = track.notes.slice(0, len));
+  var lenToTick = midi.tracks[0].notes[len].ticks;
 
-  // !!!! Здесь нужно конвертировать JSON в миди
+  midi.tracks.map(track => {
+    var i = 0,
+        newNotes = [];
+    while (track.notes[i].ticks < lenToTick) {
+      newNotes.push(track.notes[i]);
+      i++;
+    }
+    track.notes = newNotes;
+  });
 
-  // qs('#playerShort').src = "data:audio/midi;base64," + btoa(file.toBytes());
+  qs('#player_short').src = jsonToMidi(midi);
+}
 
+function jsonToMidi(json) {
+  var file = new MidiLocal.File({ticks: json.header.ppq}),
+      tracks = [];
 
+  json.tracks.map(t => tracks.push(new MidiLocal.Track()));
+
+  json.tracks.map((t, i) => {
+    tracks[i].setTempo(json.header.tempos[i].bpm, 0)
+    t.notes.map(note => tracks[i].addNote(0, note.midi, note.durationTicks, 0, 90))
+  })
+
+  tracks.map(t => file.addTrack(t));
+  return "data:audio/midi;base64," + btoa(file.toBytes());
 }
