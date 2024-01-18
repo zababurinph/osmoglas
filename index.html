@@ -24,12 +24,12 @@
             <h2>Осмоглас<sup style="font-size: 13px; font-family: 'Times New Roman', Times, serif; color: var(--third-color)">beta</sup></h2>
         </div>
         <div class="menu">
-            <div class="btnMenu glases" onclick="choosePage('glases')">Гласы</div>
-            <div class="btnMenu liturg" onclick="choosePage('liturg')">Литургия</div>
-            <div class="btnMenu favorite" onclick="choosePage('favorite')">Избранное</div>
+            <div class="btnMenu glases" id='glases' onclick="choosePage('glases')">Гласы</div>
+            <div class="btnMenu liturg" id='liturg' onclick="choosePage('liturg')">Литургия</div>
+            <div class="btnMenu favorite" id='favorite' onclick="choosePage('favorite')">Избранное</div>
             <div class="separator"></div>
-            <div class="btnMenu instruction" onclick="choosePage('instruction')">Инструкция</div>
-            <div class="btnMenu donut" onclick="choosePage('donut')">Поддержать</div>
+            <div class="btnMenu instruction" id='instruction' onclick="choosePage('instruction')">Инструкция</div>
+            <div class="btnMenu donut" id='donut' onclick="choosePage('donut')">Поддержать</div>
             <div style="margin: 0 10px 5px 0">
                 <input type="checkbox" id="checkbox_navbar" class='checkbox_navbar'/>
                 <label for="checkbox_navbar"></label>
@@ -57,30 +57,30 @@
     <div id="bodyDiv" class="notActive">
         <div id="template" class="flex" style="line-height: 1.2em"></div>
 
-        <midi-player sound-font id="player_short" visualizer="#playerShortViz"></midi-player>
+        <midi-player sound-font id="player_short"></midi-player>
 
         <h3>Транспонирование (шаг в полутонах):</h3>
-        <div class="flex">
-            <div class="btn btn_mini" onclick="chooseTone(-6, 'tone59')" id="tone59">-6</div>
-            <div class="btn btn_mini" onclick="chooseTone(-5, 'tone60')" id="tone60">-5</div>
-            <div class="btn btn_mini" onclick="chooseTone(-4, 'tone61')" id="tone61">-4</div>
-            <div class="btn btn_mini" onclick="chooseTone(-3, 'tone62')" id="tone62">-3</div>
-            <div class="btn btn_mini" onclick="chooseTone(-2, 'tone63')" id="tone63">-2</div>
-            <div class="btn btn_mini" onclick="chooseTone(-1, 'tone64')" id="tone64">-1</div>
-            <div class="btn btn_mini" onclick="chooseTone(0, 'tone65')" id="tone65">0</div>
-            <div class="btn btn_mini" onclick="chooseTone(1, 'tone66')" id="tone66">+1</div>
-            <div class="btn btn_mini" onclick="chooseTone(2, 'tone67')" id="tone67">+2</div>
-            <div class="btn btn_mini" onclick="chooseTone(3, 'tone68')" id="tone68">+3</div>
-            <div class="btn btn_mini" onclick="chooseTone(4, 'tone69')" id="tone69">+4</div>
-            <div class="btn btn_mini" onclick="chooseTone(5, 'tone70')" id="tone70">+5</div>
-            <div class="btn btn_mini" onclick="chooseTone(6, 'tone71')" id="tone71">+6</div>
+        <div class="flex tone-div">
+            <div class="btn btn_mini" onclick="chooseTone(-6)" id="tone-6">-6</div>
+            <div class="btn btn_mini" onclick="chooseTone(-5)" id="tone-5">-5</div>
+            <div class="btn btn_mini" onclick="chooseTone(-4)" id="tone-4">-4</div>
+            <div class="btn btn_mini" onclick="chooseTone(-3)" id="tone-3">-3</div>
+            <div class="btn btn_mini" onclick="chooseTone(-2)" id="tone-2">-2</div>
+            <div class="btn btn_mini" onclick="chooseTone(-1)" id="tone-1">-1</div>
+            <div class="btn btn_mini" onclick="chooseTone(0)" id="tone0">0</div>
+            <div class="btn btn_mini" onclick="chooseTone(1)" id="tone1">+1</div>
+            <div class="btn btn_mini" onclick="chooseTone(2)" id="tone2">+2</div>
+            <div class="btn btn_mini" onclick="chooseTone(3)" id="tone3">+3</div>
+            <div class="btn btn_mini" onclick="chooseTone(4)" id="tone4">+4</div>
+            <div class="btn btn_mini" onclick="chooseTone(5)" id="tone5">+5</div>
+            <div class="btn btn_mini" onclick="chooseTone(6)" id="tone6">+6</div>
         </div>
 
         <br><br>
         <div class="flex">
             <h3>Темп:</h3>
             <form id="tempoForm">
-                <input type="range"  name="amountRange" id="tempoRange" min="50" max="250" value="120" step="10" oninput="this.form.amountInput.value = this.value"/>
+                <input type="range"  name="amountRange" id="tempoRange" min="50" max="250" value="120" step="10" oninput="this.form.amountInput.value = this.value" style="width: 150px"/>
                 <div class="resetTempo" onclick="changeTempo()" id="tempoRes">↻</div>
                 <input type="number" name="amountInput" id="tempoInput" min="50" max="250" value="120" step="10" oninput="this.form.amountRange.value = this.value" onchange="this.value = Math.max(this.value, 10)" maxlength="3"/>
                 <div class="bpm">bpm</div>
@@ -146,7 +146,7 @@
 <!--        <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>-->
     </div>
 <!------------------------------------------------------------------------------------------------------>
-    <div id="instruction" class="second-page notActive">
+    <div id="instructionPage" class="second-page notActive">
         <h3>Как пользоваться</h3>
         <p>
             Сначала по нажатию кнопок выбирается песнопение: раздел меню, затем раздел на странице и мелодия. Далее
@@ -171,12 +171,16 @@
             с новыми настройками, иначе изменения не применятся.
         </p>
         <p>
+            <b>Визуализатор</b> - это экранчик в самом низу страницы, который показывает ноты, если вы выбрали одну партию, и
+            структурное изображение партий, если вы выбрали больше одной партии. При включении плеера ноты следуют за музыкой.
+        </p>
+        <p>
             Все возникшие вопросы вы можете задать лично разработчику по ссылке внизу сайта. А также написать свои
             предложения :)
         </p>
     </div>
 <!------------------------------------------------------------------------------------------------------>
-    <div id="donut" class="second-page notActive">
+    <div id="donutPage" class="second-page notActive">
         <h3>Вы можете поддержать проект</h3>
         <p>
             Так как сайт абсолютно бесплатный, то создатели тратят свое личное время и средства на его пополнение и
@@ -203,7 +207,6 @@
 
     <!--  data  -->
     <script src="./js/data.js"></script>
-    <script src="./js/data2.js"></script>
     <!-- player midi -->
     <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
     <!-- midi reader -->
