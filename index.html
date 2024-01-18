@@ -27,7 +27,6 @@
             <div class="btnMenu glases" onclick="choosePage('glases')">Гласы</div>
             <div class="btnMenu liturg" onclick="choosePage('liturg')">Литургия</div>
             <div class="btnMenu favorite" onclick="choosePage('favorite')">Избранное</div>
-            <div class="btnMenu parser" onclick="parser()">Парсер</div>
             <div class="separator"></div>
             <div class="btnMenu instruction" onclick="choosePage('instruction')">Инструкция</div>
             <div class="btnMenu donut" onclick="choosePage('donut')">Поддержать</div>
@@ -62,19 +61,19 @@
 
         <h3>Транспонирование (шаг в полутонах):</h3>
         <div class="flex">
-            <div class="btn btn_mini" onclick="chooseTone(59, 'tone59')" id="tone59">-6</div>
-            <div class="btn btn_mini" onclick="chooseTone(60, 'tone60')" id="tone60">-5</div>
-            <div class="btn btn_mini" onclick="chooseTone(61, 'tone61')" id="tone61">-4</div>
-            <div class="btn btn_mini" onclick="chooseTone(62, 'tone62')" id="tone62">-3</div>
-            <div class="btn btn_mini" onclick="chooseTone(63, 'tone63')" id="tone63">-2</div>
-            <div class="btn btn_mini" onclick="chooseTone(64, 'tone64')" id="tone64">-1</div>
-            <div class="btn btn_mini" onclick="chooseTone(65, 'tone65')" id="tone65">0</div>
-            <div class="btn btn_mini" onclick="chooseTone(66, 'tone66')" id="tone66">+1</div>
-            <div class="btn btn_mini" onclick="chooseTone(67, 'tone67')" id="tone67">+2</div>
-            <div class="btn btn_mini" onclick="chooseTone(68, 'tone68')" id="tone68">+3</div>
-            <div class="btn btn_mini" onclick="chooseTone(69, 'tone69')" id="tone69">+4</div>
-            <div class="btn btn_mini" onclick="chooseTone(70, 'tone70')" id="tone70">+5</div>
-            <div class="btn btn_mini" onclick="chooseTone(71, 'tone71')" id="tone71">+6</div>
+            <div class="btn btn_mini" onclick="chooseTone(-6, 'tone59')" id="tone59">-6</div>
+            <div class="btn btn_mini" onclick="chooseTone(-5, 'tone60')" id="tone60">-5</div>
+            <div class="btn btn_mini" onclick="chooseTone(-4, 'tone61')" id="tone61">-4</div>
+            <div class="btn btn_mini" onclick="chooseTone(-3, 'tone62')" id="tone62">-3</div>
+            <div class="btn btn_mini" onclick="chooseTone(-2, 'tone63')" id="tone63">-2</div>
+            <div class="btn btn_mini" onclick="chooseTone(-1, 'tone64')" id="tone64">-1</div>
+            <div class="btn btn_mini" onclick="chooseTone(0, 'tone65')" id="tone65">0</div>
+            <div class="btn btn_mini" onclick="chooseTone(1, 'tone66')" id="tone66">+1</div>
+            <div class="btn btn_mini" onclick="chooseTone(2, 'tone67')" id="tone67">+2</div>
+            <div class="btn btn_mini" onclick="chooseTone(3, 'tone68')" id="tone68">+3</div>
+            <div class="btn btn_mini" onclick="chooseTone(4, 'tone69')" id="tone69">+4</div>
+            <div class="btn btn_mini" onclick="chooseTone(5, 'tone70')" id="tone70">+5</div>
+            <div class="btn btn_mini" onclick="chooseTone(6, 'tone71')" id="tone71">+6</div>
         </div>
 
         <br><br>
@@ -82,52 +81,53 @@
             <h3>Темп:</h3>
             <form id="tempoForm">
                 <input type="range"  name="amountRange" id="tempoRange" min="50" max="250" value="120" step="10" oninput="this.form.amountInput.value = this.value"/>
-                <input type="number" name="amountInput" id="tempoInput" min="50" max="250" value="120" step="10" oninput="this.form.amountRange.value = this.value" onchange="this.value = Math.max(this.value, 10)"/>
+                <div class="resetTempo" onclick="changeTempo()" id="tempoRes">↻</div>
+                <input type="number" name="amountInput" id="tempoInput" min="50" max="250" value="120" step="10" oninput="this.form.amountRange.value = this.value" onchange="this.value = Math.max(this.value, 10)" maxlength="3"/>
+                <div class="bpm">bpm</div>
             </form>
-            <div class="resetTempo" onclick="changeTempo()" id="tempoRes">↻</div>
         </div>
 
         <h3>Выберите партии:</h3>
         <div class="parts off" id="soprano1Div">
             <input class='checkbox' type="checkbox" id="soprano1" /><label for="soprano1"></label>
             <div class="namePart">Сопрано 1</div>
-            <input type="range" class="volume" id="soprano1Vol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="soprano1Vol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('soprano1Vol')" id="soprano1Res">↻</div>
         </div>
         <div class="parts off" id="soprano2Div">
             <input class='checkbox' type="checkbox" id="soprano2" /><label for="soprano2"></label>
             <div class="namePart">Сопрано 2</div>
-            <input type="range" class="volume" id="soprano2Vol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="soprano2Vol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('soprano2Vol')" id="soprano2Res">↻</div>
         </div>
         <div class="parts off" id="altDiv">
             <input class='checkbox' type="checkbox" id="alt" /><label for="alt"></label>
             <div class="namePart">Альт</div>
-            <input type="range" class="volume" id="altVol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="altVol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('altVol')" id="altRes">↻</div>
         </div>
         <div class="parts off" id="tenor1Div">
             <input class='checkbox' type="checkbox" id="tenor1" /><label for="tenor1"></label>
             <div class="namePart">Тенор 1</div>
-            <input type="range" class="volume" id="tenor1Vol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="tenor1Vol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('tenor1Vol')" id="tenor1Res">↻</div>
         </div>
         <div class="parts off" id="tenor2Div">
             <input class='checkbox' type="checkbox" id="tenor2" /><label for="tenor2"></label>
             <div class="namePart">Тенор 2</div>
-            <input type="range" class="volume" id="tenor2Vol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="tenor2Vol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('tenor2Vol')" id="tenor2Res">↻</div>
         </div>
         <div class="parts off" id="baritonDiv">
             <input class='checkbox' type="checkbox" id="bariton" /><label for="bariton"></label>
             <div class="namePart">Баритон</div>
-            <input type="range" class="volume" id="baritonVol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="baritonVol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('baritonVol')" id="baritonRes">↻</div>
         </div>
         <div class="parts off" id="basDiv">
             <input class='checkbox' type="checkbox" id="bas" /><label for="bas"></label>
             <div class="namePart">Бас</div>
-            <input type="range" class="volume" id="basVol" min="1" value="127" max="127" step="1"/>
+            <input type="range" class="volume" id="basVol" min="1" value="80" max="127" step="1"/>
             <div class="reset" onclick="resetVolume('basVol')" id="basRes">↻</div>
         </div>
 
@@ -138,13 +138,12 @@
         <br>
         <div class="off" id="songDiv">
             <h3 id="trackName">Track</h3>
-            <midi-player sound-font id="player" visualizer="#playerViz"></midi-player>
+            <midi-player sound-font id="player" visualizer="#vizualizer-piano, #vizualizer-lines"></midi-player>
             <br>
-            <midi-visualizer type="staff" id="playerViz"></midi-visualizer>
+            <midi-visualizer class='notActive' type="staff" id="vizualizer-piano"></midi-visualizer>
+            <midi-visualizer class='' type="piano-roll" id="vizualizer-lines"></midi-visualizer>
         </div>
-        <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>
-
-
+<!--        <div class="btn btn_big" style="margin: 10px auto" onclick="downloadSong()">Скачать миди</div>-->
     </div>
 <!------------------------------------------------------------------------------------------------------>
     <div id="instruction" class="second-page notActive">
@@ -207,14 +206,8 @@
     <script src="./js/data2.js"></script>
     <!-- player midi -->
     <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
-    <!-- md5 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
     <!-- midi reader -->
     <script src="https://unpkg.com/@tonejs/midi"></script>
-<!--    &lt;!&ndash; midi writer &ndash;&gt;-->
-<!--    <script scr="https://cdnjs.cloudflare.com/ajax/libs/midi.js/0.3.0/midi.min.js"></script>-->
-    <!--  scripts  -->
     <script src="./js/jsmidgen.js"></script>
     <script src="./js/script.js"></script>
 </body>

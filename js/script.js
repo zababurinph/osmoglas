@@ -1,28 +1,27 @@
 //@formatter:off
 
 'use strict';
-var parts = ["soprano1L", "soprano2L", "altL", "tenor1L", "tenor2L", "baritonL", "basL"],
-    vol = 90,
+var vol = 80,
     qs = (sel) => document.querySelector(sel),
     qa = (sel) => document.querySelectorAll(sel);
 
 var song = "",
     songID = "",
     toneKey = "tone65",
-    tone = 65,
-    golosa = [true, true, true, true, true, true, true],
-    velocity = [90, 90, 90, 90, 90, 90, 90],
+    tone = 0,
+    parts = {soprano1: true, soprano2: true, alt: true, tenor1: true, tenor2: true, bariton: true, bas: true},
+    velocity = {soprano1: vol, soprano2: vol, alt: vol, tenor1: vol, tenor2: vol, bariton: vol, bas: vol},
     tempoSong = 120,
     activePage = 'glases',
     activeChapter = '',
     pageName = '';
 
 window.addEventListener("load", e => {
-  // alert(CryptoJS.MD5('fermata' + key))
   qs('#' + toneKey).classList.add("keyChoise");
-  activeChapter = Object.keys(data[activePage])[0]
+  activeChapter = Object.keys(data2[activePage])[0];
   choosePage(activePage);
-  qs('#playerViz').config = {noteHeight: 10, activeNoteRGB: '152, 40, 40, 100'};
+  qs('#vizualizer-piano').config = {noteHeight: 10, activeNoteRGB: '152, 40, 40, 100'};
+  // qs('#vizualizer-staff').config = {activeNoteRGB: '152, 40, 40, 100'};
 })
 
 window.addEventListener("resize", e => {
@@ -39,9 +38,9 @@ qs('#checkbox_navbar').addEventListener('change', e => {
 function generateTemplatePage(id) {
   var inner = '<h3>Выберите раздел:</h3><div class="flex">';
 
-  Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseChapter(`' + i + '`)" id="' + i + '">' + data[id][i].name + '</div>')
+  Object.keys(data2[id]).map(i => inner += '<div class="btn" onclick="chooseChapter(`' + i + '`)" id="' + i + '">' + data2[id][i].name + '</div>');
   inner += '</div><h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
-  inner += generateTemplateChapter(Object.keys(data[id])[0]);
+  inner += generateTemplateChapter(Object.keys(data2[id])[0]);
   inner += '</div><h3 id="textMelodyShort"></h3>';
 
   qs('#template').innerHTML = inner;
@@ -49,22 +48,23 @@ function generateTemplatePage(id) {
 
 function generateTemplateChapter(id) {
   var inner = '';
-  Object.keys(data[activePage][id]).map(i => {
-    if (i !== 'name') inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[activePage][id][i][7] + '</div>';
+  Object.keys(data2[activePage][id]).map(i => {
+    if (i !== 'name') inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data2[activePage][id][i].name + '</div>';
   });
   return inner;
 }
 
 var resetVolume = (id) => qs('#' + id).value = vol;
 
-var changeActiveParts = (parts, value) =>
+function changeActiveParts(parts, value) {
   value ? parts.map((part) => {
-        qs('#' + part.slice(0, -1) + "Div").classList.remove("off");
-        qs('#' + part.slice(0, -1)).checked = true;
+        qs('#' + part + "Div").classList.remove("off");
+        qs('#' + part).checked = true;
       }) : parts.map((part) => {
-        qs('#' + part.slice(0, -1) + "Div").classList.add("off");
-        qs('#' + part.slice(0, -1)).checked = false;
+        qs('#' + part + "Div").classList.add("off");
+        qs('#' + part).checked = false;
       });
+}
 
 function choosePage(id) {
   resetMidiPlayer();
@@ -84,7 +84,7 @@ function choosePage(id) {
   } else {
     qs('#bodyDiv').classList.remove('notActive');
     generateTemplatePage(id);
-    activeChapter = Object.keys(data[id])[0];
+    activeChapter = Object.keys(data2[id])[0];
     pageName = qs('#' + activeChapter).textContent;
     chooseChapter(activeChapter);
     qs('#' + songID).classList.add("keyChoise");
@@ -101,10 +101,10 @@ function chooseChapter(id) {
 
   pageName = qs('#' + id).textContent;
   activeChapter = id;
-  var newSongID = Object.keys(data[activePage][id])[1];
+  songID = Object.keys(data2[activePage][id])[1];
 
-  qs('#' + newSongID).classList.add("keyChoise");
-  changeSong(newSongID, id, activePage);
+  qs('#' + songID).classList.add("keyChoise");
+  changeSong(songID, id, activePage);
 }
 
 function chooseSong(id) {
@@ -115,14 +115,27 @@ function chooseSong(id) {
   changeSong(id, activeChapter, activePage);
 }
 
-function changeSong(melodyID, chapterID, pageID) {
-  qs('#textMelody').innerHTML = data[pageID][chapterID][melodyID][6];
-  qs('#textMelodyShort').innerHTML = data[pageID][chapterID][melodyID][5];
-  changeActiveParts(parts, false);
-  changeActiveParts(data[pageID][chapterID][melodyID][0], true);
-  tempoSong = data[pageID][chapterID][melodyID][8];
+async function changeSong(melodyID, chapterID, pageID) {
+  qs('#textMelody').innerHTML = data2[pageID][chapterID][melodyID].text;
+  qs('#textMelodyShort').innerHTML = data2[pageID][chapterID][melodyID].textShort;
+  changeActiveParts(Object.keys(parts), false);
+
+  var url = data2[pageID][chapterID][melodyID].url;
+  var midi = new Midi();
+  midi = await Midi.fromUrl(url);
+  var activeParts = [];
+  midi.tracks.map(t => activeParts.push(t.name));
+  changeActiveParts(activeParts, true);
+
+  tempoSong = midi.header.tempos[0].bpm;
   changeTempo(tempoSong);
-  song = makeShortMelody(data[pageID][chapterID][melodyID][1], data[pageID][chapterID][melodyID][2]);
+
+  if (['tropar', 'kondak'].some(e => e === chapterID)) {
+    midi = await Midi.fromUrl(data2[pageID][chapterID][melodyID].urlShort);
+    song = jsonToMidi(setVolume(midi, vol));
+  } else
+    song = makeShortMelody(midi, data2[pageID][chapterID][melodyID].lengthShort);
+
   qs('#player_short').src = song;
   songID = melodyID;
 }
@@ -139,86 +152,81 @@ function chooseTone(value, id) {
   tone = value;
 }
 
-function generateSong() {
-  golosa = ["soprano1", "soprano2", "alt", "tenor1", "tenor2", "bariton", "bas"].map((id) => qs('#' + id).checked);
+async function generateSong() {
+  Object.keys(parts).map(part => {
+    parts[part] = qs('#' + part).checked
+  })
 
-  if (golosa.every(g => g === false)) {
+  if (Object.keys(parts).every(part => parts[part] === false)) {
     window.alert('Невозможно сгенерировать мелодию: не выбрана ни одна партия')
   } else {
-    velocity = ["soprano1Vol", "soprano2Vol", "altVol", "tenor1Vol", "tenor2Vol", "baritonVol", "basVol"].map((id) => qs('#' + id).value);
+    Object.keys(velocity).map(part => velocity[part] = qs('#' + part + 'Vol').value)
 
-    console.log(golosa);
+    console.log(parts);
     console.log(velocity);
 
-    song = makeMelody(data[activePage][activeChapter][songID][3], data[activePage][activeChapter][songID][4])
+    tempoSong = qs('#tempoInput').value;
+    song = await makeMelody(data2[activePage][activeChapter][songID].url);
 
-    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + qs('#' + toneKey).textContent + ' в темпе ' + qs('#tempoInput').value;
+    qs('#trackName').innerHTML = pageName + ' "' + qs('#' + songID).textContent + '" в транспонировании  ' + tone + ' в темпе ' + tempoSong;
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
-    qs('#playerViz').src = song;
+    // qs('#playerViz').src = song;
   }
 }
 
-function rotateArray(arr) {
-  var newArr = [];
-  arr[0].map(note => newArr.push([]));
-  arr.map((part, n) => part.map((note, i) => newArr[i].push(note)));
-  return newArr;
+function setVolume(midi, volume) {
+  midi.tracks.map(track => track.notes.forEach(note => note.velocity = volume));
+  return midi;
 }
 
-function makeShortMelody(melodyData, tempoData) {
-  var volume = Array(melodyData.length).fill(70);
-  return makeMidi(melodyData, tempoData, tempoSong * 2, volume);
-}
-
-function makeMelody(melodyData, tempoData) {
-  var delta = 65 - tone,
-      melody = [],
-      volume = [],
-      temp = [];
-
-  golosa.map((g, i) => {
-    if (g) {
-      melody.push(melodyData[i].map((note) => (note !== 0 ? note - delta : 0)));
-      temp.push(tempoData[i]);
-      volume.push(Number(velocity[i]));
+function makeShortMelody(midi, len) {
+  var lenToTick = midi.tracks[0].notes[len].ticks;
+  midi.tracks.map(track => {
+    var i = 0,
+        newNotes = [];
+    while (track.notes[i].ticks < lenToTick) {
+      newNotes.push(track.notes[i]);
+      i++;
     }
-  });
-  return makeMidi(melody, temp, qs('#tempoInput').value, volume);
+    track.notes = newNotes;
+  })
+
+  return jsonToMidi(setVolume(midi, vol));
 }
 
-function makeMidi(melody, tempoData, tempo, volume) {
-  var ticks = 128;
-  var file = new MidiLocal.File({ticks: ticks}),
+async function makeMelody(url) {
+  var midi = new Midi();
+  midi = await Midi.fromUrl(url);
+
+  midi.header.tempos.forEach(tempo => tempo.bpm = tempoSong);
+
+  var newTracks = [];
+  Object.keys(parts).map(part => {
+    if (parts[part]) newTracks.push(midi.tracks.filter(track => track.name === part)[0]);
+  });
+
+  midi.tracks = newTracks;
+  midi.tracks.map(track => {
+    track.notes.forEach(note => {
+      note.midi += tone;
+      note.velocity = velocity[track.name];
+    })
+  });
+
+  return jsonToMidi(midi);
+}
+
+function jsonToMidi(json) {
+  var file = new MidiLocal.File({ticks: json.header.ppq}),
       tracks = [];
 
-  melody.map((part) => tracks.push(new MidiLocal.Track()));
-  melody = rotateArray(melody);
-  tracks.map(t => {
-    t.setTempo(tempo, 0);
-    t.setTimeSignature(4, 4, 0);
-  });
-  console.log(melody);
+  json.tracks.map(t => tracks.push(new MidiLocal.Track()));
 
-  melody.map((chord, i) => {
-    chord.forEach((note, part) => {
-      if (note !== 0 && part < chord.length - 1) {
-        var partsWithSameNote = chord.map((n, j) => (note === n ? j : "")).filter(String);
-        if (partsWithSameNote.length > 1) {
-          var volumesOfParts = partsWithSameNote.map((ind) => volume[ind]);
-          var partWithMaxVolume = partsWithSameNote[volumesOfParts.indexOf(Math.max.apply(null, volumesOfParts))];
-          partsWithSameNote.map(index => index !== partWithMaxVolume ? (chord[index] = 0) : 0);
-        }
-      }
-    });
-
-    chord.map((note, part) => {
-      // if (note !== 0)
-      tracks[part].addNote(0, note, tempoData[part][i] * ticks, 0, volume[part])
-    });
-  });
-
-  console.log(melody);
+  json.tracks.map((t, i) => {
+    tracks[i].setTempo(json.header.tempos[i].bpm, 0);
+    t.notes.map(note => tracks[i].addNote(0, note.midi, note.durationTicks, 0, note.velocity));
+  })
 
   tracks.map(t => file.addTrack(t));
   return "data:audio/midi;base64," + btoa(file.toBytes());
@@ -237,7 +245,7 @@ function generateTemplateFavorite(id) {
   inner += '</div><h3 id="textMelodyShort"></h3>';
   qs('#template').innerHTML = inner;
 
-  var newSongID = Object.keys(data[activePage][id])[0];
+  var newSongID = Object.keys(data2[activePage][id])[0];
 
   qs('#' + newSongID).classList.add("keyChoise");
   changeSong(newSongID, activeChapter, activePage);
@@ -246,10 +254,10 @@ function generateTemplateFavorite(id) {
 
 function openPage() {
   resetMidiPlayer();
-  var k = CryptoJS.MD5(qs('#inputPassword').value + key);
+  var k = qs('#inputPassword').value + key;
 
-  if (k == key1) generateTemplateFavorite('pstgu');
-  else if (k == key2) generateTemplateFavorite('fermata');
+  if (k === key1) generateTemplateFavorite('pstgu');
+  else if (k === key2) generateTemplateFavorite('fermata');
   else {
     qs('#bodyDiv').classList.add('notActive');
     qs('#template').innerHTML = '';
@@ -258,66 +266,14 @@ function openPage() {
 }
 
 function resetMidiPlayer() {
-  qs('#trackName').innerHTML = 'Track';
+  qs('#trackName').innerHTML = 'Неизвестно';
   qs('#player').src = '';
   qs('#player_short').src = '';
   qs('#songDiv').classList.add('off');
+  qs('#vizualizer-piano').classList.add('notActive');
+  qs('#vizualizer-lines').classList.add('notActive');
 }
 
 function downloadSong() {
   song !== "" ? (document.location = song) : alert("Пустой трек");
-}
-
-async function parser() {
-
-  var id1 = 'liturg';
-  var inner = '<h3>Выберите раздел:</h3><div class="flex">';
-
-  Object.keys(data2[id1]).map(i => inner += '<div class="btn" onclick="" id="' + i + '">' + data2[id1][i].name + '</div>')
-  inner += '</div><h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
-  var id2 = Object.keys(data2[id1])[0];
-  Object.keys(data2[id1][id2]).map(i => {
-    if (i !== 'name') inner += '<div class="btn" onclick="" id="' + i + '">' + data2[id1][id2][i].name + '</div>';
-  });
-  inner += '</div><h3 id="textMelodyShort"></h3>';
-  var id3 = Object.keys(data2[id1][id2])[1];
-
-  qs('#template').innerHTML = inner;
-  qs('#textMelodyShort').innerHTML = data2[id1][id2][id3].textShort;
-  qs('#textMelody').innerHTML = data2[id1][id2][id3].text;
-
-  var url = data2[id1][id2][id3].url,
-      len = data2[id1][id2][id3].lengthShort;
-
-  var midi = new Midi();
-  midi = await Midi.fromUrl(url);
-
-  var lenToTick = midi.tracks[0].notes[len].ticks;
-
-  midi.tracks.map(track => {
-    var i = 0,
-        newNotes = [];
-    while (track.notes[i].ticks < lenToTick) {
-      newNotes.push(track.notes[i]);
-      i++;
-    }
-    track.notes = newNotes;
-  });
-
-  qs('#player_short').src = jsonToMidi(midi);
-}
-
-function jsonToMidi(json) {
-  var file = new MidiLocal.File({ticks: json.header.ppq}),
-      tracks = [];
-
-  json.tracks.map(t => tracks.push(new MidiLocal.Track()));
-
-  json.tracks.map((t, i) => {
-    tracks[i].setTempo(json.header.tempos[i].bpm, 0)
-    t.notes.map(note => tracks[i].addNote(0, note.midi, note.durationTicks, 0, 90))
-  })
-
-  tracks.map(t => file.addTrack(t));
-  return "data:audio/midi;base64," + btoa(file.toBytes());
 }

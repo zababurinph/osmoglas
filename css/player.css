@@ -29,15 +29,14 @@ midi-visualizer {
     text-align: left;
     width: inherit;
     margin: 0 auto;
-    /*height: 200px;*/
     padding: 0 30px;
     max-width: 1000px;
 }
 
-midi-visualizer svg rect {
+midi-visualizer[type = 'staff'] svg rect {
     fill: var(--main-color);
 }
 
-midi-visualizer svg path {
+midi-visualizer[type = 'staff'] svg path {
     opacity: 1;
 }

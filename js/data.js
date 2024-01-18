@@ -1321,7 +1321,4 @@ var data = {
             ]
         }
     }
-},
-    key = 'ztd',
-    key1 = '6fab3ed9d99069d0cdc7dddde5b111b6',
-    key2 = '0ebc1faa106c9e01f8d7c13d208fdd29';
+}
