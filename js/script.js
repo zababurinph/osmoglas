@@ -29,9 +29,10 @@ function generateTemplatePage(id) {
   var inner = '<h3>Выберите раздел:</h3><div class="flex" id="chapters">';
 
   Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseChapter(`' + i + '`)" id="' + i + '">' + data[id][i].name + '</div>');
-  inner += '</div><h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
-  inner += generateTemplateChapter(id, Object.keys(data[id])[0]);
-  inner += '</div><h3 id="textMelodyShort"></h3>';
+  inner += '</div>' +
+      '<h3>Выберите мелодию:</h3>' +
+        '<div id="templateMelody" class="flex"></div>' +
+      '<h3 id="textMelodyShort"></h3>';
 
   qs('#template').innerHTML = inner;
 }
@@ -41,7 +42,7 @@ function generateTemplateChapter(pageID, id) {
   Object.keys(data[pageID][id]).map(i => {
     if (i !== 'name') inner += '<div class="btn" onclick="chooseSong(`' + i + '`)" id="' + i + '">' + data[pageID][id][i].name + '</div>';
   });
-  return inner;
+  qs('#templateMelody').innerHTML = inner;
 }
 
 function choosePage(id) {
@@ -74,7 +75,7 @@ function chooseChapter(id) {
   if (activeChapter !== null) activeChapter.classList.remove("keyChoise");
   qs('#' + id).classList.add("keyChoise");
 
-  qs('#templateMelody').innerHTML = generateTemplateChapter(activePage.id, id);
+  generateTemplateChapter(activePage.id, id);
 
   var songID = Object.keys(data[activePage.id][id])[1];
 
@@ -128,7 +129,7 @@ async function changeSong(melodyID, chapterID, pageID) {
   }
 
   midi = doubleTempo(midi);
-  midi = setVolume(midi, volumeConst)
+  midi = setVolume(midi, volumeConst);
   song = jsonToMidi(midi);
 
   qs('#player_short').src = song;
@@ -159,7 +160,9 @@ async function generateSong() {
     qs('#trackName').innerHTML = (checkPass ? activeChapter : activePage).textContent + ' "' + activeSong.textContent + '" в транспонировании  ' + tone + ' в темпе ' + tempo;
     qs('#songDiv').classList.remove("off");
     qs('#player').src = song;
-    // qs('#playerViz').src = song;
+    qs('#vizualizer-lines').src = song;
+    qs('#vizualizer-piano').src = song;
+    // downloadSong(song);
   }
 }
 
@@ -173,6 +176,15 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
   Object.keys(partsObj).map(part => {
     if (partsObj[part]) newTracks.push(midi.tracks.filter(track => track.name === part)[0]);
   });
+
+  if (newTracks.length === 1) {
+    qs('#vizualizer-lines').classList.add('notActive');
+    qs('#vizualizer-piano').classList.remove('notActive');
+  }
+  else {
+    qs('#vizualizer-piano').classList.add('notActive');
+    qs('#vizualizer-lines').classList.remove('notActive');
+  }
 
   midi.tracks = newTracks;
   midi.tracks.map(track => {
@@ -190,6 +202,7 @@ function jsonToMidi(json) {
       tracks = [];
 
   json.tracks.map(t => tracks.push(new MidiLocal.Track()));
+  tracks[0].setTimeSignature(json.header.timeSignatures[0].timeSignature[0], json.header.timeSignatures[0].timeSignature[1], 0);
 
   json.tracks.map((t, i) => {
     tracks[i].setTempo(json.header.tempos[i].bpm, 0);
@@ -203,13 +216,13 @@ function jsonToMidi(json) {
 function generateTemplateFavorite(id) {
   qs('.wrongPassword').classList.add('notActive');
 
-  var activePageID = qs('.menu .keyChoise').id,
-      inner = '';
+  var activePageID = qs('.menu .keyChoise').id;
 
-  inner += '<h3>Выберите мелодию:</h3><div id="templateMelody" class="flex">';
-  inner += generateTemplateChapter(activePageID, id);
-  inner += '</div><h3 id="textMelodyShort"></h3>';
-  qs('#template').innerHTML = inner;
+  qs('#template').innerHTML =
+      '<h3>Выберите мелодию:</h3>' +
+        '<div id="templateMelody" class="flex"></div>' +
+      '<h3 id="textMelodyShort"></h3>';
+  generateTemplateChapter(activePageID, id);
 
   var songID = Object.keys(data[activePageID][id])[0];
 
@@ -274,6 +287,16 @@ var setVolume = (midi, volume) => {
 }
 var doubleTempo = (midi) => {
   midi.header.tempos.forEach(t => t.bpm *= 2);
+  return midi;
+}
+var setTimeSignature = (midi, ts) => {
+  var timeSignature = []
+  midi.tracks.map((t, i) => timeSignature.push({
+    ticks: 0,
+    timeSignature: ts,
+    measures: 0
+  }));
+  midi.header.timeSignatures = timeSignature;
   return midi;
 }
 var downloadSong = (obj) => obj !== "" ? (document.location = obj) : alert("Пусто");
