@@ -170,7 +170,8 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
   var midi = new Midi();
   midi = await Midi.fromUrl(url);
 
-  midi.header.tempos.forEach(t => t.bpm = tempo);
+  midi.header.tempos[0].bpm = tempo;
+  // midi.header.tempos.forEach(t => t.bpm = tempo);
 
   var newTracks = [];
   Object.keys(partsObj).map(part => {
@@ -199,14 +200,22 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
 
 function jsonToMidi(json) {
   var file = new MidiLocal.File({ticks: json.header.ppq}),
-      tracks = [];
+      tracks = [],
+      time = 0,
+      oldTicks = 0;
 
   json.tracks.map(t => tracks.push(new MidiLocal.Track()));
   tracks[0].setTimeSignature(json.header.timeSignatures[0].timeSignature[0], json.header.timeSignatures[0].timeSignature[1], 0);
 
   json.tracks.map((t, i) => {
-    tracks[i].setTempo(json.header.tempos[i].bpm, 0);
-    t.notes.map(note => tracks[i].addNote(0, note.midi, note.durationTicks, 0, note.velocity));
+    tracks[i].setTempo(json.header.tempos[0].bpm, 0);
+    oldTicks = 0;
+    t.notes.map(note => {
+      if (note.ticks !== oldTicks) time = note.ticks - oldTicks;
+      tracks[i].addNote(0, note.midi, note.durationTicks, time, note.velocity);
+      oldTicks = note.ticks + note.durationTicks;
+      time = 0;
+    });
   })
 
   tracks.map(t => file.addTrack(t));
@@ -299,4 +308,10 @@ var setTimeSignature = (midi, ts) => {
   midi.header.timeSignatures = timeSignature;
   return midi;
 }
-var downloadSong = (obj) => obj !== "" ? (document.location = obj) : alert("Пусто");
+// var downloadSong = (obj) => {
+//   obj !== "" ?
+//       // document.location = obj
+//       document.location = jsonToMidi2(jsonFrom)
+//        :
+//       alert("Пусто");
+// };
