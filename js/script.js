@@ -222,6 +222,8 @@ function jsonToMidi(json) {
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+
 function generateTemplateFavorite(id) {
   qs('.wrongPassword').classList.add('notActive');
 
@@ -308,10 +310,10 @@ var setTimeSignature = (midi, ts) => {
   midi.header.timeSignatures = timeSignature;
   return midi;
 }
-// var downloadSong = (obj) => {
-//   obj !== "" ?
-//       // document.location = obj
-//       document.location = jsonToMidi2(jsonFrom)
-//        :
-//       alert("Пусто");
-// };
+var downloadSong = (obj) => {
+  obj !== "" ?
+      document.location = obj
+      // document.location = jsonToMidi2(jsonFrom)
+       :
+      alert("Пусто");
+};

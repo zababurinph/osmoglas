@@ -29,8 +29,13 @@ midi-visualizer {
     text-align: left;
     width: inherit;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 50px;
     max-width: 1000px;
+    position: relative;
+}
+
+midi-visualizer[type = 'staff'] {
+    left: 54px;
 }
 
 midi-visualizer[type = 'staff'] svg rect {
@@ -39,4 +44,8 @@ midi-visualizer[type = 'staff'] svg rect {
 
 midi-visualizer[type = 'staff'] svg path {
     opacity: 1;
+}
+
+.staff-visualizer div svg:first-child {
+    left: -108px;
 }
