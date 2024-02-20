@@ -29,13 +29,9 @@ midi-visualizer {
     text-align: left;
     width: inherit;
     margin: 0 auto;
-    padding: 0 50px;
+    padding: 0 50px 0 137px;
     max-width: 1000px;
     position: relative;
-}
-
-midi-visualizer[type = 'staff'] {
-    left: 47px;
 }
 
 midi-visualizer[type = 'staff'] svg rect {
