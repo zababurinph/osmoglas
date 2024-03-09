@@ -67,7 +67,7 @@ function choosePage(id) {
 }
 
 function chooseChapter(id) {
-  console.log(id);
+  // console.log(id);
 
   resetMidiPlayer();
   var activeChapter = qs('#chapters .keyChoise'),
@@ -85,7 +85,7 @@ function chooseChapter(id) {
 }
 
 function chooseSong(id) {
-  console.log(id);
+  // console.log(id);
 
   resetMidiPlayer();
   var activeSong = qs('#templateMelody .keyChoise');
@@ -169,7 +169,7 @@ async function generateSong() {
 async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
   var midi = new Midi();
   midi = await Midi.fromUrl(url);
-
+    
   midi.header.tempos[0].bpm = tempo;
   // midi.header.tempos.forEach(t => t.bpm = tempo);
 
@@ -177,7 +177,7 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
   Object.keys(partsObj).map(part => {
     if (partsObj[part]) newTracks.push(midi.tracks.filter(track => track.name === part)[0]);
   });
-
+    
   if (newTracks.length === 1) {
     qs('#vizualizer-lines').classList.add('notActive');
     qs('#vizualizer-piano').classList.remove('notActive');
@@ -186,7 +186,7 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
     qs('#vizualizer-piano').classList.add('notActive');
     qs('#vizualizer-lines').classList.remove('notActive');
   }
-
+    
   midi.tracks = newTracks;
   midi.tracks.map(track => {
     track.notes.forEach(note => {
@@ -194,30 +194,44 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
       note.velocity = volumeObj[track.name];
     })
   });
-
+    
   return jsonToMidi(midi);
 }
 
 function jsonToMidi(json) {
+  // console.log(json);
+
   var file = new MidiLocal.File({ticks: json.header.ppq}),
       tracks = [],
       time = 0,
-      oldTicks = 0;
+      oldTicks = 0,
+      nextTS = 0;
 
   json.tracks.map(t => tracks.push(new MidiLocal.Track()));
-  tracks[0].setTimeSignature(json.header.timeSignatures[0].timeSignature[0], json.header.timeSignatures[0].timeSignature[1], 0);
+  tracks[0].setTimeSignature(json.header.timeSignatures[nextTS].timeSignature[0], json.header.timeSignatures[nextTS].timeSignature[1], 0);
+  nextTS += 1;
 
   json.tracks.map((t, i) => {
     tracks[i].setTempo(json.header.tempos[0].bpm, 0);
     oldTicks = 0;
     t.notes.map(note => {
+      if (i === 0)
+        if (json.header.timeSignatures.length >= nextTS + 1)
+          if (note.ticks === json.header.timeSignatures[nextTS].ticks) {
+            tracks[0].setTimeSignature(json.header.timeSignatures[nextTS].timeSignature[0], json.header.timeSignatures[nextTS].timeSignature[1], 0);
+            nextTS += 1;
+      }
+
       if (note.ticks !== oldTicks) time = note.ticks - oldTicks;
       tracks[i].addNote(0, note.midi, note.durationTicks, time, note.velocity);
       oldTicks = note.ticks + note.durationTicks;
       time = 0;
+      // console.log(i);
+      // console.log(note);
     });
   })
-
+  // console.log('OK4');
+    
   tracks.map(t => file.addTrack(t));
   return "data:audio/midi;base64," + btoa(file.toBytes());
 }
@@ -272,6 +286,7 @@ var chooseTone = (value) => {
 }
 var changeActiveParts = (parts, value) => {
   value ? parts.map((part) => {
+    // console.log(part);
     qs('#' + part + "Div").classList.remove("off");
     qs('#' + part).checked = true;
   }) : parts.map((part) => {
