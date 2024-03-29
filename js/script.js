@@ -220,17 +220,19 @@ function jsonToMidi(json) {
           if (note.ticks === json.header.timeSignatures[nextTS].ticks) {
             tracks[0].setTimeSignature(json.header.timeSignatures[nextTS].timeSignature[0], json.header.timeSignatures[nextTS].timeSignature[1], 0);
             nextTS += 1;
+            console.log('nextTS')
       }
-
+      console.log('after loop')
       if (note.ticks !== oldTicks) time = note.ticks - oldTicks;
+      console.log(note.midi + ' ' + note.durationTicks + ' ' + time)
       tracks[i].addNote(0, note.midi, note.durationTicks, time, note.velocity);
       oldTicks = note.ticks + note.durationTicks;
       time = 0;
-      // console.log(i);
-      // console.log(note);
+      console.log(i);
+      console.log(note);
     });
   })
-  // console.log('OK4');
+  console.log('OK4');
     
   tracks.map(t => file.addTrack(t));
   return "data:audio/midi;base64," + btoa(file.toBytes());
