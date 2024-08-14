@@ -200,6 +200,7 @@ async function makeMelody(url, partsObj, tempo, deltaTone, volumeObj) {
 
 function jsonToMidi(json) {
   // console.log(json);
+  console.log('jsonToMidi --> start');
 
   var file = new MidiLocal.File({ticks: json.header.ppq}),
       tracks = [],
@@ -232,7 +233,7 @@ function jsonToMidi(json) {
       // console.log(note);
     });
   })
-  // console.log('OK4');
+  console.log('jsonToMidi --> ok');
     
   tracks.map(t => file.addTrack(t));
   return "data:audio/midi;base64," + btoa(file.toBytes());
