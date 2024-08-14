@@ -27,9 +27,9 @@ qs('#checkbox_navbar').addEventListener('change', e => {
 
 function generateTemplatePage(id) {
   var inner = '<h3>Выберите раздел:</h3><div class="flex" id="chapters">';
-  console.log(id);
-  console.log(data[id]);
-  console.log(Object.keys(data[id]));
+  // console.log(id);
+  // console.log(data[id]);
+  // console.log(Object.keys(data[id]));
 
   Object.keys(data[id]).map(i => inner += '<div class="btn" onclick="chooseChapter(`' + i + '`)" id="' + i + '">' + data[id][i].name + '</div>');
   inner += '</div>' +
